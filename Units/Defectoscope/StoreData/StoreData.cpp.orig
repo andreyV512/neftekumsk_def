@@ -1,0 +1,87 @@
+#include "stdafx.h"
+#include "LirItems.h"
+#include "USPCData.h"
+#include "Dialogs.h"
+#include "DlgFiles.h"
+//------------------------------------------------
+namespace
+{
+	struct close_file
+	{
+		FILE *f;
+		close_file(FILE *f): f(f){}
+		~close_file(){if(NULL != f)fclose(f);}
+	};
+}
+void StoreDataDlg::Do(HWND h)
+{
+	SaveData o(h);
+	if(o())
+	{
+		CrossLir &cross = Singleton<CrossLir>::Instance(); 
+		LongLir &lOng = Singleton<LongLir>::Instance(); 
+		ThicknessLir &thick = Singleton<ThicknessLir>::Instance(); 
+		ItemData<Thickness> &screen = Singleton<ItemData<Thickness> >::Instance();
+		RowData &row = Singleton<RowData>::Instance();
+
+		FILE *f = _wfopen(o.sFile, L"wb+");
+		close_file cf(f);
+		bool b = false;
+		if(NULL != f)
+		{
+			b = fwrite(&cross, sizeof(cross), 1, f)
+				&& fwrite(&lOng, sizeof(lOng), 1, f)
+				&& fwrite(&thick, sizeof(thick), 1, f)
+				&& fwrite(&screen, sizeof(screen), 1, f)
+				&& fwrite(&row, sizeof(row), 1, f);
+		}
+		if(!b)
+		{
+			MessageBox(h, L"Файл не сохранён", L"Ошибка!!!", MB_ICONERROR);
+		}
+		else
+		{
+			MessageBox(h, L"Файл сохранён", L"Сообщение!!!", MB_ICONINFORMATION);
+		}
+	}
+}
+//---------------------------
+bool LoadDataDlg::Do(HWND h)
+{
+	bool b = false;
+	OpenData o(h);
+	if(o())
+	{
+		CrossLir &cross = Singleton<CrossLir>::Instance(); 
+		LongLir &lOng = Singleton<LongLir>::Instance(); 
+		ThicknessLir &thick = Singleton<ThicknessLir>::Instance(); 
+		ItemData<Thickness> &screen = Singleton<ItemData<Thickness> >::Instance();
+		RowData &row = Singleton<RowData>::Instance();
+
+		FILE *f = _wfopen(o.sFile, L"rb");
+		close_file cf(f);
+		
+		if(NULL != f)
+		{
+			b = fread(&cross, sizeof(cross), 1, f)     
+			&& fread(&lOng, sizeof(lOng), 1, f)  
+<<<<<<< HEAD
+			&& fread(&thick, sizeof(lOng), 1, f) 
+=======
+			&& fread(&thick, sizeof(thick), 1, f)
+			&& fread(&screen, sizeof(screen), 1, f)
+>>>>>>> origin/master
+			&& fread(&row, sizeof(row), 1, f);
+		}
+		if(!b)
+		{
+			MessageBox(h, L"Файл не загружен", L"Ошибка!!!", MB_ICONERROR);
+		}
+		else
+		{
+			MessageBox(h, L"Файл загружен", L"Сообщение!!!", MB_ICONINFORMATION);
+		}		
+	}
+	return b;
+}
+//----------------------------------------

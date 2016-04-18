@@ -1,0 +1,47 @@
+Дефектоскоп	BASE_TS	0	True	False	4	Сигнал Базы	NULL	NULL	NULL	0	200
+Дефектоскоп	CONTROL	0	True	False	13	Контроль из толщиномера			False	NULL	200
+Дефектоскоп	CYCLE	0	False	False	9	Сигнал ЦИКЛ в толщиномер	NULL	NULL	False	0	200
+Дефектоскоп	CYCLE_TS1	True	False	0	ТС в режиме автомат			False	NULL	200
+Дефектоскоп	PCHA	0	True	False	9	Сигнал А с частотника продольного контроля			False	NULL	200
+Дефектоскоп	PCHB	0	True	False	8	Сигнал B с частотника продольного контроля			False	NULL	200
+Дефектоскоп	PCHRUN	0	True	False	10	Сигнал RUN с частотника продольного контроля			False	NULL	200
+Дефектоскоп	POWPCH	0	False	False	0	Включение питания частотника продольного контроля			False	NULL	200
+Дефектоскоп	POWSU	0	False	False	5	Питание СУ продольного контроля			False	NULL	200
+Дефектоскоп	RCROSS	1	False	False	8	Готовность Поперечного в ТС			False	NULL	200
+Дефектоскоп	READY	0	True	False	12	Готовность из толщиномера			False	NULL	200
+Дефектоскоп	RESULT	1	False	False	13	Результат			False	NULL	200
+Дефектоскоп	REVERSE	1	False	False	12	Реверс			False	NULL	200
+Дефектоскоп	RH	    0	False	False	3	Старший бит скорости продольного контроля			False	NULL	200
+Дефектоскоп	RL	    0	False	False	1	Младший бит скорости продольного контроля			False	NULL	200
+Дефектоскоп	RLINE	1	False	False	10	Готовность Продольного в ТС			False	NULL	200
+Дефектоскоп	RM	    0	False	False	2	Средний бит скорости продольного контроля			False	NULL	200
+Дефектоскоп	RTHICK	1	False	False	9	Готовность Тольщиномера в ТС			False	NULL	200
+Дефектоскоп	SQCIN	0	True	False	0	Датчик на входе модуля поперечного контроля			False	1000	200
+Дефектоскоп	SQCOUT	0	True	False	1	Датчик на выходе модуля поперечного контроля			False	2000	200
+Дефектоскоп	SQLIN	0	True	False	2	Датчик на входе в модуль продольного контроля			False	5000	200
+Дефектоскоп	SQLOUT	0	True	False	3	Датчик на выходе модуля продольного контроля			False	6000	200
+Дефектоскоп	START	1	False	False	11	Пуск			False	NULL	200
+Дефектоскоп	STF	    0	False	False	4	Пуск вращения продольного контроля			False	NULL	200
+Дефектоскоп	TPP_TS	1	True	False	4	ТПП из ТС			False	0	200
+Дефектоскоп	WCROSS	1	True	False	1	РП Поперечного из ТС			False	0	200
+Дефектоскоп	WLINE	1	True	False	3	РП Продольного из ТС			False	0	200
+Дефектоскоп	WTHICK	1	True	False	2	РП Толщиномера из ТС			False	0	200
+Дефектоскоп	ZU	    0	True	False	11	Цепи управления	NULL	NULL	True	0	200
+
+
+Толщиномер	CntrC	0	True	False	5	Состояние цепей управления			False	NULL	200
+Толщиномер	Control	0	False	False	7	Выходные сигналы в управляющий модуль			False	NULL	200
+Толщиномер	Cycle	0	True	False	7	Сигнал цикл из дефектоскопа	NULL	NULL	False	0	200
+Толщиномер	PChA	0	True	False	3	Сигналы состояния частотного преобразователя			False	NULL	200
+Толщиномер	PChB	0	True	False	2	Сигналы состояния частотного преобразователя			False	NULL	200
+Толщиномер	PChRun	0	True	False	4	Сигналы состояния частотного преобразователя			False	NULL	200
+Толщиномер	PowPCh	0	False	False	0	Включение питания частотного преобразователя			False	NULL	200
+Толщиномер	PowSU	0	False	False	5	Включение питания сканирующего устр-ва			False	NULL	200
+Толщиномер	Ready	0	False	False	6	Выходные сигналы в управляющий модуль			False	NULL	200
+Толщиномер	RH	    0	False	False	3	Задание скорости частотного преобразователя			False	NULL	200
+Толщиномер	RL	    0	False	False	1	Задание скорости частотного преобразователя			False	NULL	200
+Толщиномер	RM	    0	False	False	2	Задание скорости частотного преобразователя			False	NULL	200
+Толщиномер	SQ1	    0	True	False	0	Датчик на входе в сканирующеее уст-во			False	NULL	200
+Толщиномер	SQ2	    0	True	False	1	Датчик на выходе из сканирующего уст-ва			False	NULL	200
+Толщиномер	STF	    0	False	False	4	Пуск электродвигателя			False	NULL	200
+NULL	NULL	NULL	NULL	NULL	NULL	NULL	NULL	NULL	NULL	NULL	NULL
