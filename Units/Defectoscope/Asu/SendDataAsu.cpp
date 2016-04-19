@@ -142,8 +142,12 @@ bool SendDataAsu()
 		dprint("sent to com-port\n");
 		if(strncmp(resData.numberTube, "000", 3) != 0)
 		{
-		if(!resData.brak)CountingTube().AddCommon();
-	      else CountingTube().AddBrak();
+			if(resData.counting)
+			{
+				if(!resData.brak)CountingTube().AddCommon();
+				else CountingTube().AddBrak();
+				resData.counting = false;
+			}
 		}
 		return true;
 	}
@@ -156,6 +160,7 @@ void ComputeDataAsu()
 	ResultViewerData &resData = Singleton<ResultViewerData>::Instance();
 	resData.sendData = true;
 	resData.brak = false;
+	resData.counting = true;
 	ThresholdsTable::TItems &thesholds = Singleton<ThresholdsTable>::Instance().items;
 	unsigned char (&zones)[65] = resData.zonesAsu;
 	ForAsu(
@@ -210,7 +215,7 @@ bool SendAsuBrak()
 	   resData.cutting1 = 0;
 	   resData.brak = true;
 	   b = SendDataAsu();
-	   resData.sendData = !b;
+	   resData.sendData = false;
    }
    return b;
 }

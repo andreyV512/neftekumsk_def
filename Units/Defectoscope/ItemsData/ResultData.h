@@ -14,5 +14,6 @@ public:
 	unsigned char zonesAsu[65];
 	bool brak;
 	bool sendData;
+	bool counting;
 	ResultViewerData();
 };
