@@ -262,7 +262,7 @@ struct Impl
 			
 			while(true)
 			{
-				unsigned ev = WaitForMultipleObjects(dimention_of(arrEvents.h), arrEvents.h, FALSE, 20);
+				unsigned ev = WaitForMultipleObjects(dimention_of(arrEvents.h), arrEvents.h, FALSE, 5);
 				unsigned res = device1730_0.Read();
 				((unsigned short *)&res)[1] = device1730_1.Read();
 				if(WAIT_TIMEOUT == ev)
