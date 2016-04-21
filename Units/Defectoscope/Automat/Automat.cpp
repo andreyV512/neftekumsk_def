@@ -643,7 +643,7 @@ void Impl::Do()
 					Log::Mess<LogMess::InLongModule>();
 				}
 
-				AND_BITS(On<BASE_TS>, Ex<ExceptionStopProc>)(360000);	
+				AND_BITS(On<BASE_TS>, Proc<Lir>, Ex<ExceptionStopProc>)(360000);	
 				lir.Stop0();
 
 				AND_BITS(Off<SQfirst>, Proc<Lir>, Ex<ExceptionStopProc>)(360000);
