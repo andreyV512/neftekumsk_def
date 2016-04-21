@@ -27,12 +27,15 @@
 void TcpClientTypeSize()
 {
 	wchar_t *x = Singleton<ParametersTable>::Instance().items.get<NameParam>().value;
-	TypeSizeProtocol::Client::Do(
-		//IntToIPAddr()(Singleton<IPAddressTable>::Instance().items.get<IPAddr>().value)
-		GetHostByName()(Singleton<IPAddressTable>::Instance().items.get<IPName>().value)
-		,	Singleton<IPAddressTable>::Instance().items.get<IPPort>().value
-		, x
-		);
+	for(int i = 0; i < 5; ++i)
+	{
+		if(TypeSizeProtocol::Client::Do(
+			GetHostByName()(Singleton<IPAddressTable>::Instance().items.get<IPName>().value)
+			,	Singleton<IPAddressTable>::Instance().items.get<IPPort>().value
+			, x
+			)) break;
+		Sleep(500);
+	}
 }
 
 void TcpClientStop()

@@ -40,12 +40,14 @@ namespace
 					, Wchar_from<double, 3>(r.tresholdKlass2)()
 					);
 				app.MainWindowBottomLabel(App::status_typesize, buf);
+				dprint("###@@@  thresh  1 klass %f  2 klass %f  ++++++\n", r.tresholdKlass1, r.tresholdKlass2);
 			}
 			else
 			{
 				wsprintf(buf, L"<ff0000>Типоразмер отсутствует <ff>%s", typeSize);
 				app.MainWindowTopLabel(buf);
 				app.MainWindowBottomLabel(App::status_typesize, L"");
+				dprint("###@@@  nhtshold EEERRRRRR XXXXXXXX +++++\n");
 			}
 		}
 	} xxData;
@@ -82,12 +84,13 @@ namespace TypeSizeProtocol
 			}
 			static void operator delete(void *, void *){}
 		};		
-	void Client::Do(wchar_t *addr, int port, wchar_t *data)
+	bool Client::Do(wchar_t *addr, int port, wchar_t *data)
 	{
 		Frame *f = Frame::Get();
 		xxData.typeSize = data;
-		new(Frame::AdditionalData<Stored>(f)) Stored(xxData, f, data);
+		Stored *stored = new(Frame::AdditionalData<Stored>(f)) Stored(xxData, f, data);
 		NetClient::Connect(addr, port, f);
+		return stored->item.ok;
 	}
 
 }

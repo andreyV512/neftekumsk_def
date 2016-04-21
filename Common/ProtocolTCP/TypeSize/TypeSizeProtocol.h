@@ -11,6 +11,6 @@ namespace TypeSizeProtocol
 	class Client: public CommonClient
 	{
 	public:
-		static void Do(wchar_t *addr, int port, wchar_t *);
+		static bool Do(wchar_t *addr, int port, wchar_t *);
 	};
 }
