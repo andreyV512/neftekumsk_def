@@ -15,6 +15,7 @@ template<>struct ItemData<Cross>: CommonItemData
 {
 	double buffer[App::cross_count_sensors][App::zonesCount];	///<Вычисленные данные разбитые по датчикам и зонам
 	char status[App::cross_count_sensors][App::zonesCount];	///< статус данных по датчикам и зонам	
+	int offsets2[App::zonesCount + 2];
 };
 
 template<>struct ItemData<Long>: CommonItemData

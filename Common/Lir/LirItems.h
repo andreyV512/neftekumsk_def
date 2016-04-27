@@ -42,10 +42,12 @@ struct LongSQ1off: ItemsDo<LongLir, &LongLir::SQ1off>{};
 
 struct CrossLir: CommonLir
 {	
+	unsigned offsetsDataOfZone2[App::zonesCount + 2];
 	void SQ0on(Lir::Data &);
 	void SQ1on(Lir::Data &);
 	void SQ0off(Lir::Data &);
 	void SQ1off(Lir::Data &);
+	void CorrectionOffset();
 };
 
 struct CrossSQ0on:  ItemsDo<CrossLir, &CrossLir::SQ0on>{};

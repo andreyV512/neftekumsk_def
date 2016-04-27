@@ -111,6 +111,32 @@ namespace
     //- unsigned(((double)(unit.offsetsDataOfZone[pred] - unit.offsetsDataOfZone[pred - 1]) * (1.0 - fractional)));
 	unit.lastDeathZoneSamples = unit.countZones - fullZones - 1; 
 }
+	template<class T>struct Offset
+	{
+		void operator()(T &t, int zone, int index, unsigned &start, unsigned &stop)
+		{
+			 start = t.offsetsDataOfZone[index - 1];
+			 stop = t.offsetsDataOfZone[index];
+		}
+	};
+
+	template<>struct Offset<ABoard<Cross>::Type>
+	{
+		typedef ABoard<Cross>::Type T;
+		void operator()(T &t, int zone, int index, unsigned &start, unsigned &stop)
+		{
+			if(0 == (zone & 1))
+			{
+			 start = t.offsetsDataOfZone[index - 1];
+			 stop = t.offsetsDataOfZone[index];
+			}
+			else
+			{
+				start = t.offsetsDataOfZone2[index - 1];
+			    stop = t.offsetsDataOfZone2[index];
+			}
+		}
+	};
 
 	template<class T>void ComputeData(double &brakThreshold, double &klass2Threshold)
 	{
@@ -165,8 +191,11 @@ namespace
 				for(unsigned j = 1; j < unit.countZones && j < App::zonesCount; ++j)
 				{
 					double d = 0;
-					char status = StatusId<Clr<Undefined>>(); 
-					for(unsigned k = unit.offsetsDataOfZone[j - 1]; k < unit.offsetsDataOfZone[j]; ++k)
+					char status = StatusId<Clr<Undefined>>(); 				
+					//for(unsigned k = unit.offsetsDataOfZone[j - 1]; k < unit.offsetsDataOfZone[j]; ++k)
+					unsigned start, stop;
+					Offset<Unit>()(unit, i, j, start, stop);
+					for(unsigned k = start; k < stop; ++k)
 					{
 						double z = ch[k];
 						if(z < 0) z = -z;
@@ -212,7 +241,10 @@ namespace
 				{
 					double d = 0;
 					char status = StatusId<Clr<Undefined>>(); 
-					for(unsigned k = unit.offsetsDataOfZone[j - 1]; k < unit.offsetsDataOfZone[j]; ++k)
+					//for(unsigned k = unit.offsetsDataOfZone[j - 1]; k < unit.offsetsDataOfZone[j]; ++k)
+					unsigned start, stop;
+					Offset<Unit>()(unit, i, j, start, stop);
+					for(unsigned k = start; k < stop; ++k)
 					{
 						double z = ch[k];
 						if(z < 0) z = -z;
@@ -404,6 +436,7 @@ namespace
 void Compute::Recalculation()
 {	
 	typedef TL::MkTlst<Cross, Long/*, Thickness*/>::Result list;
+	Singleton<CrossLir>::Instance().CorrectionOffset();
 	TL::foreach<list, __recalculation__>()((TL::Factory<list> *)0, (int *)0);
 
 	CommonStatus();

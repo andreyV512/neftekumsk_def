@@ -481,7 +481,7 @@ void Impl::Do()
 				Log::Mess<LogMess::WaitPositionLongUnit>();
 				AND_BITS(On<WLINE>, Ex<ExceptionStopProc>)(360000);		
 				Sleep(1000);
-				AND_BITS<On<WCROSS>, On<WTHICK>, On<WLINE>, Ex<ExceptionStopProc>>(360000);
+				AND_BITS(On<WCROSS>, On<WTHICK>, On<WLINE>, Ex<ExceptionStopProc>)(360000);
 				App::measurementOfRunning = true;
 				Log::Mess<LogMess::StartSycle>();
 

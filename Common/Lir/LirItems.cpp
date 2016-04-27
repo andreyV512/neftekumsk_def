@@ -96,11 +96,24 @@ void CrossLir::SQ1off(Lir::Data &d)
 				break;
 			}
 		}
-	}
+	}	
 	ItemData<Cross> &item = Singleton<ItemData<Cross>>::Instance();
 	memcpy(item.offsets, offsetsDataOfZone, sizeof(item.offsets));
+	CorrectionOffset();	
 	item.currentOffsetZones = counterTickTime;	 
 	//----------------------------------------------
+}
+void CrossLir::CorrectionOffset()
+{
+	double t = 4.25 / App::zone_length;
+	for(int i = 1; i < countZones; ++i)
+	{		
+		 unsigned offs = offsetsDataOfZone[i] - offsetsDataOfZone[i - 1];
+		 t *= offs;
+		 offsetsDataOfZone2[i - 1] += (unsigned)t;
+	}
+	ItemData<Cross> &item = Singleton<ItemData<Cross>>::Instance();
+	memcpy(item.offsets2, offsetsDataOfZone2, sizeof(item.offsets2));
 }
 //----------------------------------------------------------------------------
 //---------------------------------------------------------------------
