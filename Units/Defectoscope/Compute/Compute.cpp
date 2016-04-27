@@ -113,7 +113,7 @@ namespace
 }
 	template<class T>struct OffsetSensors
 	{
-		void operator()(T &t, int zone, int index, unsigned &start, unsigned &stop)
+		void operator()(T &t, int channel, int index, unsigned &start, unsigned &stop)
 		{
 			 start = t.offsetsDataOfZone[index - 1];
 			 stop = t.offsetsDataOfZone[index];
@@ -123,9 +123,9 @@ namespace
 	template<>struct OffsetSensors<ABoard<Cross>::Type>
 	{
 		typedef ABoard<Cross>::Type T;
-		void operator()(T &t, int zone, int index, unsigned &start, unsigned &stop)
+		void operator()(T &t, int channel, int index, unsigned &start, unsigned &stop)
 		{
-			if(0 == (zone & 1))
+			if(0 == (channel & 1))
 			{
 			 start = t.offsetsDataOfZone[index - 1];
 			 stop = t.offsetsDataOfZone[index];

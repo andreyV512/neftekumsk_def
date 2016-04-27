@@ -50,7 +50,7 @@ namespace Common
 		typedef W<BKlass2<Thickness> > O;
 		void operator()(O *o, P *p)
 		{
-#pragma message("write @@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+//#pragma message("write @@@@@@@@@@@@@@@@@@@@@@@@@@@@")
 		//	o->value = Singleton<ThresholdsTable>::Instance().items.get<BNominal<Thickness> >().value[*p]
 			//	+ Singleton<ThresholdsTable>::Instance().items.get<TL::Inner<O>::Result>().value[*p];
 		}
