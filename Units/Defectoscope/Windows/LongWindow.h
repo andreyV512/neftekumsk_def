@@ -8,6 +8,13 @@
 
 template<class T>struct ChangeType;
 
+class XLongViewer: public LongViewer
+{
+public:
+	typedef LongViewer Parent;
+	void operator()(TRButtonDown &){}													 
+};
+
 
 class LongWindow
 {
@@ -20,7 +27,7 @@ public:
 	
 	typedef TL::CreateWapperNumList<Line, LongWindow, 0, 3>::Result line_list;
 	typedef TL::AppendList<
-		    TL::MkTlst<LongViewer>::Result
+		    TL::MkTlst<XLongViewer>::Result
 		    , line_list
 	    >::Result viewers_list;
 	TL::Factory<viewers_list> viewers;

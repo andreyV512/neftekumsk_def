@@ -54,6 +54,33 @@ template<class T, int channel>struct DataViewer: DefectData
 	}
 };
 
+template<class T>struct OffsetSensors
+	{
+		void operator()(T &t, int zone, int index, unsigned &start, unsigned &stop)
+		{
+			 start = t.offsetsDataOfZone[index - 1];
+			 stop = t.offsetsDataOfZone[index];
+		}
+	};
+
+	template<>struct OffsetSensors<ABoard<Cross>::Type>
+	{
+		typedef ABoard<Cross>::Type T;
+		void operator()(T &t, int zone, int index, unsigned &start, unsigned &stop)
+		{
+			if(0 == (zone & 1))
+			{
+			 start = t.offsetsDataOfZone[index - 1];
+			 stop = t.offsetsDataOfZone[index];
+			}
+			else
+			{
+				start = t.offsetsDataOfZone2[index - 1];
+			    stop = t.offsetsDataOfZone2[index];
+			}
+		}
+	};
+
 template<class T, int channel>struct DataViewerXXXX: DefectData
 {
 	DataViewerXXXX()
@@ -78,18 +105,21 @@ template<class T, int channel>struct DataViewerXXXX: DefectData
         RowData &row = Singleton<RowData>::Instance();
 		int startIndex = TL::IndexOf<ASignalTable::items_list, ASignal<T, channel>>::value;
 		short *d = row.data[startIndex];
-		unsigned start = item.offsetsDataOfZone[zone];
-		unsigned stop =  item.offsetsDataOfZone[1 + zone];
-
-		count = stop - start;
-		if(count > dimention_of(status)) 
-		{
-				count = dimention_of(status);
-				stop = start + dimention_of(status);
-		}
+		//unsigned start = item.offsetsDataOfZone[zone];
+		//unsigned stop =  item.offsetsDataOfZone[1 + zone];
+		//
+		//count = stop - start;
+		//if(count > dimention_of(status)) 
+		//{
+		//		count = dimention_of(status);
+		//		stop = start + dimention_of(status);
+		//}
 
 		double koeff = Singleton<CorecSignalTable>::Instance().items.get<Corec<ASignal<T, channel>>>().value;
+		unsigned start, stop;
 
+		OffsetSensors<ABoard<T>::Type>()(item, channel, zone + 1, start, stop);
+		//OffsetSensors<Unit>()(unit, i, j, start, stop);
 		Set(zone, start, stop, channel, d, StatusZoneDefect<T>, koeff);
 		
 	}

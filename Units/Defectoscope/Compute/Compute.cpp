@@ -111,7 +111,7 @@ namespace
     //- unsigned(((double)(unit.offsetsDataOfZone[pred] - unit.offsetsDataOfZone[pred - 1]) * (1.0 - fractional)));
 	unit.lastDeathZoneSamples = unit.countZones - fullZones - 1; 
 }
-	template<class T>struct Offset
+	template<class T>struct OffsetSensors
 	{
 		void operator()(T &t, int zone, int index, unsigned &start, unsigned &stop)
 		{
@@ -120,7 +120,7 @@ namespace
 		}
 	};
 
-	template<>struct Offset<ABoard<Cross>::Type>
+	template<>struct OffsetSensors<ABoard<Cross>::Type>
 	{
 		typedef ABoard<Cross>::Type T;
 		void operator()(T &t, int zone, int index, unsigned &start, unsigned &stop)
@@ -194,7 +194,7 @@ namespace
 					char status = StatusId<Clr<Undefined>>(); 				
 					//for(unsigned k = unit.offsetsDataOfZone[j - 1]; k < unit.offsetsDataOfZone[j]; ++k)
 					unsigned start, stop;
-					Offset<Unit>()(unit, i, j, start, stop);
+					OffsetSensors<Unit>()(unit, i, j, start, stop);
 					for(unsigned k = start; k < stop; ++k)
 					{
 						double z = ch[k];
@@ -243,7 +243,7 @@ namespace
 					char status = StatusId<Clr<Undefined>>(); 
 					//for(unsigned k = unit.offsetsDataOfZone[j - 1]; k < unit.offsetsDataOfZone[j]; ++k)
 					unsigned start, stop;
-					Offset<Unit>()(unit, i, j, start, stop);
+					OffsetSensors<Unit>()(unit, i, j, start, stop);
 					for(unsigned k = start; k < stop; ++k)
 					{
 						double z = ch[k];

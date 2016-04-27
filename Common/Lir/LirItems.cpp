@@ -105,12 +105,12 @@ void CrossLir::SQ1off(Lir::Data &d)
 }
 void CrossLir::CorrectionOffset()
 {
-	double t = 4.25 / App::zone_length;
-	for(int i = 1; i < countZones; ++i)
+	double t = 45.0 / App::zone_length;
+	for(unsigned i = 1; i < countZones; ++i)
 	{		
 		 unsigned offs = offsetsDataOfZone[i] - offsetsDataOfZone[i - 1];
-		 t *= offs;
-		 offsetsDataOfZone2[i - 1] += (unsigned)t;
+		 double x = t * offs;
+		 offsetsDataOfZone2[i - 1] = offsetsDataOfZone[i - 1] + (unsigned)x;
 	}
 	ItemData<Cross> &item = Singleton<ItemData<Cross>>::Instance();
 	memcpy(item.offsets2, offsetsDataOfZone2, sizeof(item.offsets2));
