@@ -31,7 +31,10 @@ namespace StrobesProtocol
 			for(int i = 0; i < x->count; ++i)
 			{
 				x->times[i] = lir.times[i];
+				dprint("time offs %d %d\n", i, x->times[i]);
+				Sleep(10);
 			}
+			dprint("count %d\n", x->count);
 			f->length = sizeof(StrobesData);
 			f->proc = Recv<Stored>;
 		}
