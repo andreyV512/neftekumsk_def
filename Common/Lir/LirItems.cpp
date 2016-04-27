@@ -112,8 +112,8 @@ void CrossLir::CorrectionOffset()
 		 double x = t * offs;
 		 offsetsDataOfZone2[i - 1] = offsetsDataOfZone[i - 1] + (unsigned)x;
 	}
-	ItemData<Cross> &item = Singleton<ItemData<Cross>>::Instance();
-	memcpy(item.offsets2, offsetsDataOfZone2, sizeof(item.offsets2));
+	//ItemData<Cross> &item = Singleton<ItemData<Cross>>::Instance();
+	//memcpy(item.offsets2, offsetsDataOfZone2, sizeof(item.offsets2));
 }
 //----------------------------------------------------------------------------
 //---------------------------------------------------------------------
