@@ -437,7 +437,7 @@ void Impl::Do()
 				device1730_0.Write(0);
 				OUT_BITS(Off<START>);			
 				SET_BITS(On<POWPCH>);
-				Sleep(1000);
+				Sleep(3000);
 				AND_BITS(Ex<ExceptionContinueProc>, Proc<ACh13>, Proc<ACh14>)();
 				if(ACh13::Do() || ACh14::Do())
 				{
@@ -468,7 +468,7 @@ void Impl::Do()
 					OUT_BITS(Off<RTHICK>);//ã
 				}
 
-				Sleep(1000);
+				Sleep(3000);
 				dprint("wait for CROSS position\n");
 				Log::Mess<LogMess::WaitPositionCrossUnit>();
 				AND_BITS(On<WCROSS>, Ex<ExceptionStopProc>)(360000);
@@ -480,7 +480,8 @@ void Impl::Do()
 				dprint("wait for LONG position\n");
 				Log::Mess<LogMess::WaitPositionLongUnit>();
 				AND_BITS(On<WLINE>, Ex<ExceptionStopProc>)(360000);		
-				Sleep(1000);				
+				Sleep(1000);
+				AND_BITS<On<WCROSS>, On<WTHICK>, On<WLINE>, Ex<ExceptionStopProc>>(360000);
 				App::measurementOfRunning = true;
 				Log::Mess<LogMess::StartSycle>();
 
