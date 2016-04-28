@@ -63,9 +63,9 @@ bool LoadDataDlg::Do(HWND h)
 		
 		if(NULL != f)
 		{
-#pragma message("после доработки исправить")
+//#pragma message("после доработки исправить")
 			b = fread(&cross, sizeof(cross), 1, f) 
-			//b = fread(&cross, sizeof(cross) - sizeof(unsigned) * (App::zonesCount + 2), 1, f)     
+		//b = fread(&cross, sizeof(cross) - sizeof(unsigned) * (App::zonesCount + 2), 1, f)     
 			&& fread(&lOng, sizeof(lOng), 1, f)  
 			&& fread(&thick, sizeof(thick), 1, f)
 			&& fread(&screen, sizeof(screen), 1, f)

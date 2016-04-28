@@ -429,6 +429,11 @@ void Impl::Do()
 	{
 		while(true)
 		{
+#pragma message("Востановитьб после отладки")			
+				WaitForSingleObject(App::WaitThicknessEvent, 5 * 60 * 60 * 1000);
+
+				Singleton<Compute>::Instance().Recalculation();
+				continue;
 			try
 			{
 				App::measurementOfRunning = false;	

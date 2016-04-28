@@ -107,7 +107,7 @@ void SendAsuBrakBtn(HWND h)
 		MessageBox(h, L"Данные переданы", L"Сообщение!!!", MB_ICONINFORMATION);
 	}
 	//CountingTube().AddBrak();
-	//TcpClientSetStrobe::Do();
+	TcpClientSetStrobe::Do();
 }
 }
 //--------------------------------------------------------------------------------------------
