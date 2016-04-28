@@ -158,6 +158,7 @@ bool SendDataAsu()
 void ComputeDataAsu()
 {
 	ResultViewerData &resData = Singleton<ResultViewerData>::Instance();
+	if(0 == resData.currentOffset) return;
 	resData.sendData = true;
 	resData.brak = false;
 	resData.counting = true;

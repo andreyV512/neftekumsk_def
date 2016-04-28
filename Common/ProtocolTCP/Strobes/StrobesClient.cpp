@@ -27,7 +27,8 @@ namespace StrobesProtocol
 			ThicknessLir &lir = Singleton<ThicknessLir>::Instance();
 			f->data.id = TL::IndexOf<__ip_protocol_procedure_list__, StrobesProtocol::Server>::value;
 			StrobesData *x = (StrobesData *)&f->data.buf;
-			x->count = lir.countZones;
+			x->count = lir.countZones - 1;
+			if(x->count < 0) x->count = 0;
 			for(int i = 0; i < x->count; ++i)
 			{
 				x->times[i] = lir.times[i];

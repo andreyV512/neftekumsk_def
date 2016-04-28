@@ -27,7 +27,8 @@ namespace
 		void Print()
 		{
 			ItemData<Thickness> &t = Singleton<ItemData<Thickness>>::Instance();
-			t.currentOffsetZones = data.countZones;
+			t.currentOffsetZones = data.countZones - 1;
+			if(t.currentOffsetZones < 0) t.currentOffsetZones = 0;
 			for(int i = 0; i < 60; ++i)
 			{
 				t.buffer[0][i] = data.data[0][i];
