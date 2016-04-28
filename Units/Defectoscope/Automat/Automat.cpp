@@ -424,16 +424,18 @@ void Impl::Do()
 {
 	Log::Mess<LogMess::ProgramOpen>(0);
 	LogMessageToTopLabel logMessageToTopLabel;
+#ifndef DEBUG_ITEMS
 	device1730_0.Write(0);
+#endif
 	try
 	{
 		while(true)
 		{
-#pragma message("Востановитьб после отладки")			
-				WaitForSingleObject(App::WaitThicknessEvent, 5 * 60 * 60 * 1000);
-
-				Singleton<Compute>::Instance().Recalculation();
-				continue;
+#ifdef DEBUG_ITEMS
+			WaitForSingleObject(App::WaitThicknessEvent, 5 * 60 * 60 * 1000);
+			Singleton<Compute>::Instance().Recalculation();
+			continue;
+#endif
 			try
 			{
 				App::measurementOfRunning = false;	

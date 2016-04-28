@@ -90,6 +90,7 @@ namespace TypeSizeProtocol
 		xxData.typeSize = data;
 		Stored *stored = new(Frame::AdditionalData<Stored>(f)) Stored(xxData, f, data);
 		NetClient::Connect(addr, port, f);
+		Sleep(1000);
 		return stored->item.ok;
 	}
 
