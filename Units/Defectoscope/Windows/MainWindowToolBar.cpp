@@ -106,8 +106,9 @@ void SendAsuBrakBtn(HWND h)
 		ComputeDataTablo();
 		MessageBox(h, L"Данные переданы", L"Сообщение!!!", MB_ICONINFORMATION);
 	}
-	//CountingTube().AddBrak();
+#ifdef DEBUG_ITEMS
 	TcpClientSetStrobe::Do();
+#endif
 }
 }
 //--------------------------------------------------------------------------------------------
