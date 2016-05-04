@@ -328,6 +328,7 @@ struct CorecSignalTable;
 template<class T>struct LongDefect	; 
 template<class T>struct CrossDefect	  ;
 struct ColorTable;
+struct OffsetsTable;
 
 
 DEFINE_PARAM_ID(ThresholdsTable            , int, 1)
@@ -338,6 +339,7 @@ DEFINE_PARAM_ID(LirParamTable, int, 1)
 DEFINE_PARAM_ID(SpeedTable, int, 1)
 DEFINE_PARAM_ID(CorecSignalTable, int, 1)
 DEFINE_PARAM_ID(ColorTable, int, 1)
+DEFINE_PARAM_ID(OffsetsTable, int, 1)
 
 
 DEFINE_PARAM_WAPPER_ID(CrossDefect, ChebyshevIParamTable, int, 1)
@@ -371,6 +373,7 @@ DEFINE_PARAM(TubeDiameter, int, 73)
 		, ID<SpeedTable>
 		, ID<CorecSignalTable>
 		, ID<ColorTable>
+		, ID<OffsetsTable>
 		, NameParam
 		, TubeDiameter
 	>::Result items_list;
@@ -393,41 +396,15 @@ struct Descriptor1730Table
  };
  //--------------------------------------------------------------------------------------------------------
 ///\brief Смещение измерительных датчиков
-template<class T, int N>struct Offset;
-DEFINE_PARAM_WAPPER_NUM(Offset, Long, 0, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Long, 1, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Long, 2, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Long, 3, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Long, 4, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Long, 5, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Long, 6, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Long, 7, int, 0)
-
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 0, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 1, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 2, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 3, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 4, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 5, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 6, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 7, int, 0)
-
-DEFINE_PARAM_WAPPER_NUM(Offset, Thickness, 0, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Thickness, 1, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Thickness, 2, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Thickness, 3, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Thickness, 4, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Thickness, 5, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Thickness, 6, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Thickness, 7, int, 0)
+template<class T>struct Offset;
+DEFINE_PARAM_WAPPER(Offset, Long, int, 50)
+DEFINE_PARAM_WAPPER(Offset, Cross, int, 50)
 
 struct OffsetsTable
 {
-	typedef TL::MultyListToList<TL::MkTlst<
-		TL::CreateWapperNumList<Offset, Long, 0, 7>::Result
-		, TL::CreateWapperNumList<Offset, Cross, 0, 7>::Result
-		, TL::CreateWapperNumList<Offset, Thickness, 0, 7>::Result
-	>::Result>::Result items_list;
+	typedef TL::MkTlst<
+		Offset<Cross>, Offset<Long>
+	>::Result items_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
 	const wchar_t *name(){return L"OffsetsTable";}
@@ -819,8 +796,7 @@ struct UnitControlsOffsetTable
 		 , InputsTable<1>
 		 , OutputsTable<0>
 		 , OutputsTable<1>
-		 , Descriptor1730Table
-		 , OffsetsTable
+		 , Descriptor1730Table		
 		 , OnTheJobTable
 		 , ASignalTable
 		 , GainSignalTable
@@ -849,6 +825,7 @@ struct UnitControlsOffsetTable
 		 , SpeedTable
 		 , CorecSignalTable
 		 , ColorTable
+		 , OffsetsTable
 	 >::Result multy_row_table_list;
 
 	 typedef TL::MkTlst<

@@ -174,6 +174,7 @@ NO_USED_MENU_ITEM(ID<LirParamTable		 >)
 NO_USED_MENU_ITEM(ID<SpeedTable>)
 NO_USED_MENU_ITEM(ID<CorecSignalTable>)
 NO_USED_MENU_ITEM(ID<ColorTable>)
+NO_USED_MENU_ITEM(ID<OffsetsTable>)
 
 void AddTypeSizeDlg::Do(HWND h)
 {

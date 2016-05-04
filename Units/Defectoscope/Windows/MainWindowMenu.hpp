@@ -56,6 +56,7 @@ namespace MainWindowMenu
 	struct MedianFiltre           : MedianFiltreDlg{};//{static void Do(HWND h){zprint("");}};
 	struct CrossDefectFiltre : CrossDefectFiltreDlg{};//{static void Do(HWND h){zprint("");}};
 	struct LongDefectFiltre : LongDefectFiltreDlg{};
+	struct OffsetsTube : OffsetsTubeDlg{};
 
 	struct LirParam: LirParamDlg{};
 
@@ -90,6 +91,8 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Фильтр продольных  дефектов", LongDefectFiltre  )
 	MENU_ITEM(L"Фильтр пореречных дефектов", CrossDefectFiltre   )
 
+	MENU_ITEM(L"Смещение измерений", OffsetsTube)
+
 	struct FiltersItem{};
 /*
 	template<>struct SubMenu<FiltersItem>
@@ -112,10 +115,8 @@ namespace MainWindowMenu
 		typedef TL::MkTlst<
 		     SubMenu<ThicknessTreshold>
 			, MenuItem<DeadZones>
-			//, SubMenu<FiltersItem>
+			, MenuItem<OffsetsTube>
 			, MenuItem<MedianFiltre>
-			//, MenuItem<RotationalSpeed>
-			
 			, Separator<0>
 			, MenuItem<MainCreateTypesize>
 			, MenuItem<MainDeleteTypeSize>

@@ -66,6 +66,8 @@ DLG(ColorItemsDlg)
 DLG(ControlItemOffsetDlg)
 DLG(ControlItemDlg)
 
+DLG(OffsetsTubeDlg)
+
 struct LoadDataDlg{static bool Do(HWND);};
 
 #undef DLG

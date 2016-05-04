@@ -506,6 +506,9 @@
     <ClCompile Include="..\..\Common\ProtocolTCP\GetHostByName.cpp">
       <Filter>Common\CommonTCP</Filter>
     </ClCompile>
+    <ClCompile Include="Dialogs\OffsetsTube.cpp">
+      <Filter>Windows\Dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
