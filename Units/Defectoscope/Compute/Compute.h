@@ -24,6 +24,7 @@ template<class T>void StatusZoneDefect(double data, double &brakThreshold, doubl
 class Compute
 {
 public:
+	bool store;
 	Compute();
 	void Recalculation();
 	void Clear();

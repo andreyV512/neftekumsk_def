@@ -3,17 +3,14 @@
 #include "WindowsPosition.h"
 #include "Dialogs.h"
 #include "USPCWindow.h"
-//#include "CrossThresholdWindow.h"
-//#include "LongThresholdWindow.h"
-//#include "ThicknessThresholdWindow.h"
 
 namespace MainWindowMenu
 {
 	struct MainFile{};
 	MENU_TEXT(L"Τΰιλ", TopMenu<MainFile>)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	struct LoadDateFile: LoadDataDlg{static void Do(HWND h){if(LoadDataDlg::Do(h))RecalculationDlg::Do(h);}};//{static void Do(HWND h){zprint("");}};
-	struct SaveDateFile: StoreDataDlg{};//{static void Do(HWND h){zprint("");}};
+	struct LoadDateFile: LoadDataDlg{static void Do(HWND h){if(LoadDataDlg::Do(h))RecalculationDlg::Do(h);}};
+	struct SaveDateFile: StoreDataDlg{};
 	struct Compute     : RecalculationDlg{};//{static void Do(HWND h){zprint("");}};
 	struct MainExit{static void Do(HWND h){DestroyWindow(h);}};
 	struct ClearCounter : ClearCounterDlg{};

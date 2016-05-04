@@ -6,7 +6,7 @@ struct CommonItemData
 {
 	//int currentOffsetFrames;
 	int currentOffsetZones;
-	int offsets[App::zonesCount + 2];
+//	int offsets[App::zonesCount + 2];
 };
 
 template<class T>struct ItemData;

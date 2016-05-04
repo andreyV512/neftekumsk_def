@@ -28,29 +28,8 @@ template<class T, int channel>struct DataViewer: DefectData
 		   , Singleton<ThresholdsTable>::Instance().items.get<BKlass2<T> >().value
 		)
 	{}
-	//void Do(int zone)
-	//{
-//#pragma message("смотреть здесь просмотр по кадрам")
-	//   ItemData<T> &d = Singleton<ItemData<T> >::Instance();
-	//   int start = d.offsets[zone];
-	//   int stop = d.offsets[1 + zone];
-	//   int offs = Singleton<OffsetsTable>::Instance().items.get<Offset<T, channel> >().value;
-	//   //int maxOffs = d.currentOffsetFrames;
-	//   Set(zone, start, stop, channel, offs);
-	//}
 	void Do(int zone)
-	{
-		//ABoard<T>::Type &cross = Singleton<ABoard<T>::Type>::Instance();
-        //RowData &row = Singleton<RowData>::Instance();
-		//static const int startIndex = TL::IndexOf<ASignalTable::items_list, ASignal<T, channel>>::value;
-		//short *d = row.data[startIndex];
-		//int start = row.offsets[zone];
-		//int stop = row.offsets[zone];
-		//for(int i = start; i < stop; ++i)
-		//{
-		//	data[i - start] = d;
-		//}
-		//Set(zone, start, stop, channel);
+	{		
 	}
 };
 
@@ -91,37 +70,17 @@ template<class T, int channel>struct DataViewerXXXX: DefectData
 		   , Singleton<ThresholdsTable>::Instance().items.get<BKlass2<T> >().value
 		)
 	{}
-//#pragma message("смотреть здесь просмотр по кадрам")
-	//   ItemData<T> &d = Singleton<ItemData<T> >::Instance();
-	//   int start = d.offsets[zone];
-	//   int stop = d.offsets[1 + zone];
-	//   int offs = Singleton<OffsetsTable>::Instance().items.get<Offset<T, channel> >().value;
-	//   //int maxOffs = d.currentOffsetFrames;
-	//   Set(zone, start, stop, channel, offs);
-	//}
 	void Do(int zone)
 	{
 		ABoard<T>::Type &item = Singleton<ABoard<T>::Type>::Instance();
         RowData &row = Singleton<RowData>::Instance();
 		int startIndex = TL::IndexOf<ASignalTable::items_list, ASignal<T, channel>>::value;
 		short *d = row.data[startIndex];
-		//unsigned start = item.offsetsDataOfZone[zone];
-		//unsigned stop =  item.offsetsDataOfZone[1 + zone];
-		//
-		//count = stop - start;
-		//if(count > dimention_of(status)) 
-		//{
-		//		count = dimention_of(status);
-		//		stop = start + dimention_of(status);
-		//}
-
 		double koeff = Singleton<CorecSignalTable>::Instance().items.get<Corec<ASignal<T, channel>>>().value;
 		unsigned start, stop;
 
 		OffsetSensors<ABoard<T>::Type>()(item, channel, zone + 1, start, stop);
-		//OffsetSensors<Unit>()(unit, i, j, start, stop);
 		Set(zone, start, stop, channel, d, StatusZoneDefect<T>, koeff);
-		
 	}
 };
 

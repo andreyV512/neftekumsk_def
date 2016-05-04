@@ -69,6 +69,46 @@ void CrossLir::SQ0off(Lir::Data &d)
 	tTick = d.tick;
 	lir.SetCross<Lir>(&lir, &Lir::Noop);	
 }
+
+namespace{
+template<class T>struct SubI;
+template<>struct SubI<CrossLir>{typedef Cross Result;};
+template<>struct SubI<LongLir>{typedef Long Result;};
+
+template<class O>void OffsetTube(O &o)
+{
+	unsigned offsets[dimention_of(o.offsetsDataOfZone)] = {};
+
+	double t = (double)Singleton<OffsetsTable>::Instance().items.get<Offset<SubI<O>::Result>>().value / App::zone_length;
+	double x = 0;
+	for(unsigned i = 1; i <= o.countZones; ++i)
+	{		
+		 int offs = o.offsetsDataOfZone[i] - o.offsetsDataOfZone[i - 1];
+		 if(offs < 0) 
+		 {
+			offsets[i - 1] = o.offsetsDataOfZone[i - 1] + (unsigned)x;
+			break;
+		 }
+		 else
+		 {
+			 x = t * offs;
+			 offsets[i - 1] = o.offsetsDataOfZone[i - 1] + (unsigned)x;
+		 }
+	}
+	memmove(o.offsetsDataOfZone, offsets, sizeof(o.offsetsDataOfZone)); 
+}
+}
+
+void OffsetsLir()
+{
+	CrossLir &cross = Singleton<CrossLir>::Instance();
+	OffsetTube(cross);
+	cross.CorrectionOffset();
+
+	LongLir &long_ = Singleton<LongLir>::Instance();
+	OffsetTube(long_);
+}
+
 void CrossLir::SQ1off(Lir::Data &d)
 {
 	tTick += (d.tick - tTick) / 2;
@@ -97,24 +137,27 @@ void CrossLir::SQ1off(Lir::Data &d)
 			}
 		}
 	}	
+	
 	ItemData<Cross> &item = Singleton<ItemData<Cross>>::Instance();
-	memcpy(item.offsets, offsetsDataOfZone, sizeof(item.offsets));
+	//memcpy(item.offsets, offsetsDataOfZone, sizeof(item.offsets));
 	CorrectionOffset();	
 	item.currentOffsetZones = counterTickTime;	 
 	//----------------------------------------------
 }
+
 void CrossLir::CorrectionOffset()
 {
 	double t = 45.0 / App::zone_length;
-	for(unsigned i = 1; i < countZones; ++i)
+	double x = 0;
+	for(unsigned i = 1; i <= countZones; ++i)
 	{		
 		 int offs = offsetsDataOfZone[i] - offsetsDataOfZone[i - 1];
 		 if(offs < 0) 
 		 {
-			 --countZones;
-			 return;
+			offsetsDataOfZone2[i - 1] = offsetsDataOfZone[i - 1] + (unsigned)x;
+			return;
 		 }
-		 double x = t * offs;
+		 x = t * offs;
 		 offsetsDataOfZone2[i - 1] = offsetsDataOfZone[i - 1] + (unsigned)x;
 	}
 }
@@ -187,18 +230,11 @@ void LongLir::SQ1off(Lir::Data &d)
 			}
 		}
 	}
-	dprint("stop long %d", timeGetTime() - startLong);
 	ItemData<Long> &item = Singleton<ItemData<Long>>::Instance();
-	memcpy(item.offsets, offsetsDataOfZone, sizeof(item.offsets));
+//	memcpy(item.offsets, offsetsDataOfZone, sizeof(item.offsets));
 	item.currentOffsetZones = counterTickTime;	
-	//----------------------------------------------
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//--------------------------------------------------------------------------------
-//void ThicknessLir::SQ0on(Lir::Data &){}
-//void ThicknessLir::SQ1on(Lir::Data &){}
-//void ThicknessLir::SQ0off(Lir::Data &){}
-//void ThicknessLir::SQ1off(Lir::Data &){}
 void ThicknessLir::SQ0on(Lir::Data &d)
 {
 	predTick = d.tick;
@@ -252,24 +288,5 @@ void ThicknessLir::SQ1off(Lir::Data &d)
 		++counterTickTime;
 	}
 	countZones = counterTickTime;	
-	//int j = 0;
-	//for(unsigned i = 0; i < countZones; ++i)
-	//{
-	//	unsigned t = times[i];
-	//	for(; j < rowData.currentFrames; ++j)
-	//	{
-	//		if(t < rowData.timeFrames[j])
-	//		{
-	//			double delta = double(t - rowData.timeFrames[j - 1])/(rowData.timeFrames[j] - rowData.timeFrames[j - 1]);
-    //            offsetsDataOfZone[i] = rowData.offsets[j - 1] + (unsigned)(delta * (rowData.offsets[j] - rowData.offsets[j - 1]));
-	//			break;
-	//		}
-	//	}
-	//}
-	//dprint("stop long %d", timeGetTime() - startLong);
-	//ItemData<Thickness> &item = Singleton<ItemData<Thickness>>::Instance();
-	//memcpy(item.offsets, offsetsDataOfZone, sizeof(item.offsets));
-	//item.currentOffsetZones = counterTickTime;	
-	//----------------------------------------------
 }
 //--------------------------------------------------------------------------------

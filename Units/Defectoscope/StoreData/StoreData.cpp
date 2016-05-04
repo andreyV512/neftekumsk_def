@@ -3,6 +3,7 @@
 #include "USPCData.h"
 #include "Dialogs.h"
 #include "DlgFiles.h"
+#include "Compute.h"
 //------------------------------------------------
 namespace
 {
@@ -63,9 +64,7 @@ bool LoadDataDlg::Do(HWND h)
 		
 		if(NULL != f)
 		{
-//#pragma message("после доработки исправить")
 			b = fread(&cross, sizeof(cross), 1, f) 
-		//b = fread(&cross, sizeof(cross) - sizeof(unsigned) * (App::zonesCount + 2), 1, f)     
 			&& fread(&lOng, sizeof(lOng), 1, f)  
 			&& fread(&thick, sizeof(thick), 1, f)
 			&& fread(&screen, sizeof(screen), 1, f)
@@ -77,6 +76,7 @@ bool LoadDataDlg::Do(HWND h)
 		}
 		else
 		{
+			Singleton<Compute>::Instance().store = false;
 			MessageBox(h, L"Файл загружен", L"Сообщение!!!", MB_ICONINFORMATION);
 		}		
 	}

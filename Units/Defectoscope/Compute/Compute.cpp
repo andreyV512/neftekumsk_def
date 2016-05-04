@@ -87,8 +87,6 @@ namespace
 
 	T &unit = Singleton<T>::Instance();
 
-	//unit.firstDeathZoneSamples = unit.offsetsDataOfZone[fullZones] - unit.offsetsDataOfZone[0]
-    //+int((double)(unit.offsetsDataOfZone[fullZones + 1] - unit.offsetsDataOfZone[fullZones]) * fractional);
 	unit.firstDeathZoneSamples = fullZones;
 }
 
@@ -105,10 +103,6 @@ namespace
     
 	int pred = lastZone - fullZones;
 
-
-
-	//unit.lastDeathZoneSamples = unit.offsetsDataOfZone[lastZone] - unit.offsetsDataOfZone[pred]
-    //- unsigned(((double)(unit.offsetsDataOfZone[pred] - unit.offsetsDataOfZone[pred - 1]) * (1.0 - fractional)));
 	unit.lastDeathZoneSamples = unit.countZones - fullZones - 1; 
 }
 	template<class T>struct OffsetSensors
@@ -191,8 +185,7 @@ namespace
 				for(unsigned j = 1; j < unit.countZones && j < App::zonesCount; ++j)
 				{
 					double d = 0;
-					char status = StatusId<Clr<Undefined>>(); 				
-					//for(unsigned k = unit.offsetsDataOfZone[j - 1]; k < unit.offsetsDataOfZone[j]; ++k)
+					char status = StatusId<Clr<Undefined>>(); 									
 					unsigned start, stop;
 					OffsetSensors<Unit>()(unit, i, j, start, stop);
 					for(unsigned k = start; k < stop; ++k)
@@ -433,23 +426,55 @@ namespace
    };
 }
 
+namespace{
+	template<class O>struct __store_item__
+	{
+		static typename ABoard<O>::Type &Store(){static typename ABoard<O>::Type x; return x;};		
+	};
+	template<class O, class P>struct __get_item__
+	{
+		void operator()(O *, P *)
+		{
+			typedef ABoard<O>::Type Unit;
+			memmove(&Singleton<Unit>::Instance(), &__store_item__<O>::Store(), sizeof(Unit));
+		}
+	};
+	template<class O, class P>struct __set_item__
+	{
+		void operator()(O *, P *)
+		{
+			typedef ABoard<O>::Type Unit;
+			memmove(&__store_item__<O>::Store(), &Singleton<Unit>::Instance(), sizeof(Unit));
+		}
+	};
+}
+
 void Compute::Recalculation()
 {	
-	typedef TL::MkTlst<Cross, Long/*, Thickness*/>::Result list;
-	Singleton<CrossLir>::Instance().CorrectionOffset();
+	typedef TL::MkTlst<Cross, Long>::Result list;
+	if(store)
+	{
+		TL::foreach<list, __get_item__>()((TL::Factory<list> *)0, (int *)0);
+	}
+	else
+	{
+		store = true;
+		TL::foreach<list, __set_item__>()((TL::Factory<list> *)0, (int *)0);
+	}
+	OffsetsLir();
+	
 	TL::foreach<list, __recalculation__>()((TL::Factory<list> *)0, (int *)0);
 
 	CommonStatus();
 
-	app.MainWindowUpdate();
+	app.MainWindowUpdate();	
 }
 
 void Compute::Clear()
 {	
+	store = false;
 	typedef TL::MkTlst<Cross, Long, Thickness, ResultViewerData>::Result list;
 	TL::foreach<list, __clear__>()((TL::Factory<list> *)0, (int *)0);
-
-//	CommonStatus();
 
 	app.MainWindowUpdate();
 }

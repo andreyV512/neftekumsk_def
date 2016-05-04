@@ -83,3 +83,5 @@ template<>struct ABoard<ThicknessLir>
 	typedef ThicknessLir Type;
 };
 
+void OffsetsLir();
+
