@@ -74,11 +74,6 @@ void SelectTypeSizeList::Do(TCommand &m)
 				if(obj&&ptr)(obj->*ptr)();
 
 				SetFocus(m.hwnd);
-///\todo убрать
-				char buf[256];
-				wcstombs(buf, Singleton<ParametersTable>::Instance().items.get<NameParam>().value, 256);
-				dprint("%s\n", buf);
-//...........................
 			}
 		}
 	}

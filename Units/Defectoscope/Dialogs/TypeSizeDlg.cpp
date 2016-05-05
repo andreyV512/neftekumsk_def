@@ -47,9 +47,11 @@ namespace
 					CurrentParametersTable curr = Singleton<CurrentParametersTable>::Instance();
 					curr.items.get<CurrentID>().value = id;
 					UpdateWhere<CurrentParametersTable>(curr, base).ID(1).Execute();
+					//AppBase::InitTypeSizeTables(base);
+
 					HWND hMain = GetParent(h);
 					MainWindow *o = (MainWindow *)GetWindowLongPtr(hMain, GWLP_USERDATA);
-					o->select.AddMenuItem(buf);
+					o->select.AddMenuItem(buf);					
 				}
 				EndDialog(h, TRUE);
 			}
@@ -185,13 +187,12 @@ void AddTypeSizeDlg::Do(HWND h)
 	   >(t).Do(h, L"Добавить типоразмер")
 	   )
 	{
+		memmove(&Singleton<ParametersTable>::Instance(), &t, sizeof(t));
 	}
 }
 
 void DelTypeSizeDlg::Do(HWND h)
 {
-	//ParametersTable t;
-	//t.items.get<NameParam>().value = Singleton<ParametersTable>::Instance().items.get<NameParam>().value;
 	if(TemplDialogList<
 		ParametersTable
 		, TL::MkTlst<NameParam>::Result
