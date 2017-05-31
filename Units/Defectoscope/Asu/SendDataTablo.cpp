@@ -24,7 +24,7 @@ void  ComputeDataTablo()
 	char numberTube[6];
 	strncpy_s(numberTube, r.numberTube, 5);
 
-	char *klass = Asu::klass2 == r.klass ? "2 klass" : "1 klass";
+	char *klass = Asu::klass3 == r.klass ? "3 klass" :  Asu::klass2 == r.klass ? "2 klass" : "1 klass";
 
 	if(r.brak)
 	{
