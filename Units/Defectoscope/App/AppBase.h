@@ -18,6 +18,7 @@ struct CurrentParametersTable
 	const wchar_t *name(){return L"CurrentParametersTable";}
 };
 //------------------------------------------------------------------------------------------
+template<class>struct BKlass3;
 template<class>struct BKlass2;
 template<class>struct BDefect;
 
@@ -28,7 +29,8 @@ DEFINE_PARAM_WAPPER(BDefect, Long,       double, 30)
 DEFINE_PARAM_WAPPER(BKlass2, Cross     , double, 40)
 DEFINE_PARAM_WAPPER(BDefect, Cross     , double, 60)
 
-DEFINE_PARAM_WAPPER(BKlass2  , Thickness, double, 4.8)
+DEFINE_PARAM_WAPPER(BKlass2  , Thickness, double, 5.6)
+DEFINE_PARAM_WAPPER(BKlass3  , Thickness, double, 5.4)
 DEFINE_PARAM_WAPPER(BDefect  , Thickness, double, 5.2)
 DEFINE_PARAM_WAPPER(BNominal, Thickness, double, 6.0)
 
@@ -42,6 +44,7 @@ struct ThresholdsTable
 		, BKlass2<Cross>
 		, BDefect<Cross>
 		, BKlass2  <Thickness>
+		, BKlass3  <Thickness>
 		, BDefect  <Thickness>
 	    , BNominal<Thickness>
 		, MimimumTubeLength
@@ -111,6 +114,7 @@ DEFINE_WAPPER(Clr<DeathZone>, int, 0xff333333)
 
 DEFINE_WAPPER(Clr<BKlass2<Long>      >, int, 0xffffff00)
 DEFINE_WAPPER(Clr<BKlass2<Thickness>  >, int, 0xffffff00)
+DEFINE_WAPPER(Clr<BKlass3<Thickness>  >, int, 0xff1cff00)
 DEFINE_WAPPER(Clr<BDefect<Thickness>  >, int, 0xffff0000)
 DEFINE_WAPPER(Clr<BDefect<Long>      >, int, 0xffff0000)
 DEFINE_WAPPER(Clr<BKlass2<Cross>     >, int, 0xffffff00)
@@ -119,7 +123,7 @@ DEFINE_WAPPER(Clr<BDefect<Cross>     >, int, 0xffff0000)
 #define	JOIN2(a, b) a##,##b
 #define	JOIN3(a, b, c) a##,##b##,##c
 #define	JOIN4(a, b, c, d) a##,##b##,##c,##d
-
+																	
 DEFINE_WAPPER(JOIN2(Clr<BDefect<Thickness>, BKlass2<Thickness>>											), int, 0xffff0000)
 DEFINE_WAPPER(JOIN2(Clr<BDefect<Cross>   , BKlass2<Thickness>>											), int, 0xffff0000)
 DEFINE_WAPPER(JOIN2(Clr<BDefect<Cross>   , BDefect<Thickness>>											), int, 0xffff0000)
@@ -154,9 +158,21 @@ DEFINE_WAPPER(JOIN4(Clr<BDefect<Cross>, BKlass2<Long>, BDefect<Thickness>, BKlas
 DEFINE_WAPPER(JOIN2(Clr<BDefect<Long>, BKlass2<Cross> >												), int, 0xffff0000)
 DEFINE_WAPPER(JOIN3(Clr<BDefect<Long>, BKlass2<Cross>, BKlass2<Thickness>>   						), int, 0xffff0000)
 DEFINE_WAPPER(JOIN3(Clr<BDefect<Long>, BKlass2<Cross>, BDefect<Thickness>>      					), int, 0xffff0000)
-DEFINE_WAPPER(JOIN4(Clr<BDefect<Long>, BKlass2<Cross>, BDefect<Thickness>, BKlass2<Thickness>>), int, 0xffff0000) 
+DEFINE_WAPPER(JOIN4(Clr<BDefect<Long>, BKlass2<Cross>, BDefect<Thickness>, BKlass2<Thickness>>), int, 0xffff0000)
 
 
+
+DEFINE_WAPPER(JOIN2(Clr<BDefect<Cross>   , BKlass3<Thickness>>											), int, 0xffff0000)
+DEFINE_WAPPER(JOIN2(Clr<BDefect<Long>    , BKlass3<Thickness>>												), int, 0xffff0000)
+DEFINE_WAPPER(JOIN3(Clr<BDefect<Cross>   , BDefect<Long>, BKlass3<Thickness>>   						), int, 0xffff0000)
+DEFINE_WAPPER(JOIN2(Clr<BKlass2<Cross>   , BKlass3<Thickness>>											), int, 0xffffff00)
+DEFINE_WAPPER(JOIN2(Clr<BKlass2<Long>, BKlass3<Thickness>>												), int, 0xffffff00)
+DEFINE_WAPPER(JOIN3(Clr<BKlass2<Cross>, BKlass2<Long>, BKlass3<Thickness>>   						), int, 0xffffff00)
+DEFINE_WAPPER(JOIN3(Clr<BDefect<Cross>, BKlass2<Long>, BKlass3<Thickness>>						), int, 0xffff0000)
+DEFINE_WAPPER(JOIN3(Clr<BDefect<Long>, BKlass2<Cross>, BKlass3<Thickness>>   						), int, 0xffff0000)
+/*
+
+													*/
 
 struct ColorTable
 {
@@ -167,10 +183,11 @@ struct ColorTable
 /*2*/, Clr<DeathZone>
 /*3*/, Clr<BKlass2<Long>      >
 /*4*/, Clr<BKlass2<Thickness>  >
-/*5*/, Clr<BDefect<Thickness>  >
-/*6*/, Clr<BDefect<Long>      >
-/*7*/, Clr<BKlass2<Cross>     >
-/*8*/, Clr<BDefect<Cross>     >
+/*5*/, Clr<BKlass3<Thickness>     >
+/*6*/, Clr<BDefect<Thickness>  >
+/*7*/, Clr<BDefect<Long>      >
+/*8*/, Clr<BKlass2<Cross>     >
+/*9*/, Clr<BDefect<Cross>     >
 									
 /*10*/, Clr<BDefect<Cross>   , BKlass2<Thickness>>										
 /*11*/, Clr<BDefect<Cross>   , BDefect<Thickness>>										
@@ -200,17 +217,17 @@ struct ColorTable
 /*28*/, Clr<BDefect<Long>, BKlass2<Cross>, BKlass2<Thickness>>   						
 /*29*/, Clr<BDefect<Long>, BKlass2<Cross>, BDefect<Thickness>>   
 
+/*10*/, Clr<BDefect<Cross>   , BKlass3<Thickness>>					
+/*12*/, Clr<BDefect<Long>    , BKlass3<Thickness>>					
+///*15*/, Clr<BDefect<Cross>   , BDefect<Long>, BKlass3<Thickness>>   	
+///*17*/, Clr<BKlass2<Cross>   , BKlass3<Thickness>>					
+///*19*/, Clr<BKlass2<Long>, BKlass2<Thickness>>						
+///*22*/, Clr<BKlass2<Cross>, BKlass2<Long>, BKlass3<Thickness>>   		
+///*25*/, Clr<BDefect<Cross>, BKlass2<Long>, BKlass3<Thickness>>		
+///*28*/, Clr<BDefect<Long>, BKlass2<Cross>, BKlass3<Thickness>>   		
+
 
 //------------------------------------------------------------------------------
-///**/, Clr<BDefect<Cross>, BKlass2<Long>, BDefect<Thickness>, BKlass2<Thickness>>
-///**/, Clr<BDefect<Long>, BKlass2<Cross>, BDefect<Thickness>, BKlass2<Thickness>>
-///**/, Clr<BDefect<Thickness>, BKlass2<Cross>, BKlass2<Long>, BKlass2<Thickness>>
-///**/, Clr<BDefect<Thickness>, BKlass2<Long>, BKlass2<Thickness>>	
-///**/, Clr<BDefect<Thickness>, BKlass2<Cross>, BKlass2<Thickness>>
-///**/, Clr<BDefect<Cross>   , BDefect<Long>, BDefect<Thickness>, BKlass2<Thickness>>
-///*13*/, Clr<BDefect<Cross>   , BDefect<Thickness>, BKlass2<Thickness>>
-///**/, Clr<BDefect<Long>    , BDefect<Thickness>, BKlass2<Thickness>>	
-///*10*/, Clr<BDefect<Thickness>, BKlass2<Thickness>>	
 	>::Result items_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;

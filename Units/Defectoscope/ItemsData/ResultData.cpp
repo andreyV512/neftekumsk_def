@@ -6,5 +6,5 @@ ResultViewerData::ResultViewerData()
 	: currentOffset(0)
 	, tresholdKlass1(5)
 	, tresholdKlass2(4.8)
-
+	, tresholdKlass3(4.6)
 {}

@@ -27,10 +27,11 @@ bool ThicknessViewer::Draw(TMouseMove &l, VGraphics &g)
 		if(b)
 		{
 
-			wsprintf(buf, L"<ff>толщина <ff0000>%s <ff>\"1 класс %s\" \"2 класс %s\"",// <ff>мах.толщина <ff0000>%s", 
+			wsprintf(buf, L"<ff>толщина <ff0000>%s <ff>\"1 класс %s\" \"2 класс %s\" \"3 класс %s\"",
 				Wchar_from<double, 3>(viewerData.buffer[0][x])()
 				, Wchar_from<double, 4>(r.tresholdKlass1)()
 				, Wchar_from<double, 4>(r.tresholdKlass2)()
+				, Wchar_from<double, 4>(r.tresholdKlass3)()
 				);
 		}
 		else

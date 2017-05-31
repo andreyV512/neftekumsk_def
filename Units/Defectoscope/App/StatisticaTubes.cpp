@@ -72,22 +72,10 @@ public:
 	}
 	void Statistica::AddTube()
 	{
-		//int t = ItemIni::Get(section, tube, 0, path);
-		//++t;
-		//ItemIni::Set(section, tube, t, path);
-		//wchar_t buf[128];
-		//wsprintf(buf, L"Общее количество: %d", t);
-		//Static_SetText(app.mainWindow.hCommonTube, buf);
         AddT<__Common__>()(*this);
 	}
 	void Statistica::AddBrakTube()
 	{
-		//int t = ItemIni::Get(section, tube, 0, path);
-		//++t;
-		//ItemIni::Set(section, tube, t, path);
-		//wchar_t buf[128];
-		//wsprintf(buf, L"Брак количество : %d", t);
-		//Static_SetText(app.mainWindow.hBrakTube, buf);
 		 AddT<__Brak__>()(*this);
 	}
 	void Statistica::Clear()

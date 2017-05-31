@@ -16,6 +16,7 @@ namespace
 		wchar_t Ok[4];
 		double tresholdKlass1;
 		double tresholdKlass2;
+		double tresholdKlass3;
 	};
 	struct XXData
 	{
@@ -30,17 +31,19 @@ namespace
                 ResultViewerData &r = Singleton<ResultViewerData>::Instance();
 				r.tresholdKlass1 = s->tresholdKlass1;
 				r.tresholdKlass2 = s->tresholdKlass2;
+				r.tresholdKlass3 = s->tresholdKlass3;
 				wsprintf(buf, L"<ff00>¬ыбран типоразмер <ff>%s"
 					, typeSize
 					);
 				app.MainWindowTopLabel(buf);
 				SetEvent(App::ProgrammContinueEvent);
-				wsprintf(buf, L"\"1 класс %s\" \"2 класс %s\""
+				wsprintf(buf, L"\"1 класс %s\" \"2 класс %s\" \"3 класс %s\""
 					, Wchar_from<double, 3>(r.tresholdKlass1)()
 					, Wchar_from<double, 3>(r.tresholdKlass2)()
+					, Wchar_from<double, 3>(r.tresholdKlass3)()
 					);
 				app.MainWindowBottomLabel(App::status_typesize, buf);
-				dprint("###@@@  thresh  1 klass %f  2 klass %f  ++++++\n", r.tresholdKlass1, r.tresholdKlass2);
+				dprint("###@@@  thresh  1 klass %f  2 klass %f  2 klass %f++++++\n", r.tresholdKlass1, r.tresholdKlass2, r.tresholdKlass3);
 			}
 			else
 			{

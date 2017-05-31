@@ -105,19 +105,7 @@ namespace
 			return false;
 		}
 	};
-	//template<>struct __id_skip__<Clr<BNominal<Thickness>>>
-	//{
-	//	template<class P>bool operator()(P *p)
-	//	{
-	//		if (NULL == p->str)
-	//		{
-	//			p->str = __status_label__<Clr<BNominal<Thickness>>>::text();
-	//			p->res = __status_label__<Clr<BNominal<Thickness>>>::ID;
-	//		}
-	//		return false;
-	//	}
-	//};	
-
+	
 	typedef TL::MkTlst<
 		Clr<BDefect<Cross>>, Clr<BDefect<Long>>,  Clr<BDefect<Thickness>>
 		, Clr<BKlass2<Cross>>, Clr<BKlass2<Long>>, Clr<BKlass2<Thickness>>
@@ -149,11 +137,6 @@ namespace
 	{
 		typedef typename P::items_list Result;
 	};
-
-	//template<class P>struct __type_skip__<Clr<BNominal<Thickness>>, P>
-	//{
-	//	typedef typename P::items_list Result;
-	//};
 
 	template<class P>struct __type_skip__<Clr<Undefined>, P>
 	{

@@ -234,7 +234,6 @@ namespace
 				{
 					double d = 0;
 					char status = StatusId<Clr<Undefined>>(); 
-					//for(unsigned k = unit.offsetsDataOfZone[j - 1]; k < unit.offsetsDataOfZone[j]; ++k)
 					unsigned start, stop;
 					OffsetSensors<Unit>()(unit, i, j, start, stop);
 					for(unsigned k = start; k < stop; ++k)
@@ -262,50 +261,10 @@ namespace
 					item.currentOffsetZones = j - 1;
 				}
 		}
-
-		/*
-		USPC7100_ASCANDATAHEADER *b = d.ascanBuffer;
-		T filtre(f);
-		for(int i = 0; i < d.currentOffsetZones; ++i)
-		{
-			for(int j = 0; j < dimention_of(d.buffer); ++j)
-			{
-				d.buffer[j][i] = -1;
-				d.status[j][i] = StatusId<Clr<Undefined>>();
-			}
-			for(int j = d.offsets[i], last = d.offsets[i + 1]; j < last; ++j)
-			{
-				WORD channel = b[j].Channel;
-				if(channel < App::count_sensors)
-				{
-					double t = filtre(channel, b[j].hdr.G1Amp);
-					if(t > d.buffer[channel][i])
-					{
-						d.buffer[channel][i] = t;						
-						StatusZoneDefect<Data>(j, t, i, brakThreshold, klass2Threshold, d.status[channel][i]);
-					}
-				}				
-			}
-		}
-		int buf[ App::count_sensors + 1];
-		buf[App::count_sensors] = -1;
-		for(int i = 0; i < d.currentOffsetZones; ++i)
-		{
-			for(int j = 0; j < App::count_sensors; ++j)
-			{
-				buf[j] = d.status[j][i];
-			}
-			int t = 0;
-		    SelectMessage(buf, t);
-			d.commonStatus[i] = t;
-		}
-		*/
 	}
 	}
 	template<class T>void UndefinedItem(T &x)
 	{
-		//ZeroMemory(x.status, sizeof(x.status));
-		//ZeroMemory(x.buffer, sizeof(x.buffer));
 		x.currentOffsetZones = 0;
 	}
  
@@ -386,10 +345,7 @@ namespace
 
 			resultStatus[i] = t;
 		}
-		//for(int i = currentOffset; currentOffset < countCrossSensor; ++i)
-		//{
-		//	resultStatus[i] = __status_label__<Clr<Undefined>>::ID;
-		//}
+		
 		resultViewerData.cutting0 = 0;
 		resultViewerData.cutting1 = 0;
 	   resultViewerData.lengthTube = CuttingTube(
@@ -405,9 +361,6 @@ namespace
 		   , resultViewerData.cutting1
 		   , resultViewerData.lengthTube
 		   );
-
-	   //resultViewerData.brak = resultViewerData.lengthTube > (int)thesholds.get<MimimumTubeLength>().value;
-
 	}
 #endif
    template<class O, class P>struct __clear__

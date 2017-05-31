@@ -61,8 +61,8 @@ STATUS_LABEL(Clr<DeathZone>, "\"Мёртвая зона\"")
 STATUS_LABEL(Clr<Nominal>, "\"1 класс\"")
 
 STATUS_LABEL(Clr<BKlass2<Thickness>>, "толщина \"2 класс\"") 
+STATUS_LABEL(Clr<BKlass3<Thickness>>, "толщина \"3 класс\"") 
 STATUS_LABEL(Clr<BDefect<Thickness>>, "толщина \"брак\"")
-//STATUS_LABEL(Clr<BNominal<Thickness>>, "\"1 класс\"")
 //---------------------------------------------------------------------------
 template<class O, class P>struct __set_color_bar__;
 
@@ -100,9 +100,6 @@ template<class O, class P>struct __set_color_bar__
         if(TL::IndexOf<ColorTable::items_list, O>::value == p->id)
 		{
 		     p->color = color;
-			//p->color = Singleton<ColorTable>::Instance().items.get<
-			//	typename __clr__<O>::Result
-			//>().value;
              return false;
 		}
 		return true;
@@ -167,12 +164,15 @@ COLOR_DATA(Clr<DeathZone>)
 
 #define BDefect_Thickness "\"толщина 1 класс\", "
 #define BKlass2_Thickness "\"толщина 2 класс\", "
+#define BKlass3_Thickness "\"толщина 3 класс\", "
 
 STATUS_LABEL_1((BDefect, Cross))
 STATUS_LABEL_1((BDefect, Long))
 
 STATUS_LABEL_1((BKlass2, Cross))
 STATUS_LABEL_1((BKlass2, Long))
+
+//STATUS_LABEL_1((BKlass3, Thickness))
 
 //STATUS_LABEL_2((BDefect, Thickness), (BKlass2, Thickness))
 
@@ -192,29 +192,29 @@ STATUS_LABEL_3((BDefect, Cross), (BDefect, Long), (BDefect, Thickness))
 //----------------------------------------------------------------------
 STATUS_LABEL_2((BKlass2, Cross), (BKlass2, Thickness))
 STATUS_LABEL_2((BDefect, Thickness), (BKlass2, Cross))
-//STATUS_LABEL_3((BDefect, Thickness), (BKlass2, Cross), (BKlass2, Thickness))
 				
 STATUS_LABEL_2((BKlass2, Long), (BKlass2, Thickness))
 STATUS_LABEL_2((BDefect, Thickness), (BKlass2, Long))
-//STATUS_LABEL_3((BDefect, Thickness), (BKlass2, Long), (BKlass2, Thickness))
 			
 STATUS_LABEL_2((BKlass2, Cross), (BKlass2, Long))
 				
 STATUS_LABEL_3((BKlass2, Cross), (BKlass2, Long), (BKlass2, Thickness))
 STATUS_LABEL_3((BDefect, Thickness), (BKlass2, Cross), (BKlass2, Long))
-//STATUS_LABEL_4((BDefect, Thickness), (BKlass2, Cross), (BKlass2, Long), (BKlass2, Thickness))
 //---------------
 STATUS_LABEL_2((BDefect, Cross), (BKlass2, Long))
 				
 STATUS_LABEL_3((BDefect, Cross), (BKlass2, Long), (BKlass2, Thickness))
 STATUS_LABEL_3((BDefect, Cross), (BKlass2, Long), (BDefect, Thickness))
-//STATUS_LABEL_4((BDefect, Cross), (BKlass2, Long), (BDefect, Thickness), (BKlass2, Thickness))
 //----------------------------------
 STATUS_LABEL_2((BDefect, Long), (BKlass2, Cross))
 								
 STATUS_LABEL_3((BDefect, Long), (BKlass2, Cross), (BKlass2, Thickness))
 STATUS_LABEL_3((BDefect, Long), (BKlass2, Cross), (BDefect, Thickness))
-//STATUS_LABEL_4((BDefect, Long), (BKlass2, Cross), (BDefect, Thickness), (BKlass2, Thickness))
+
+
+STATUS_LABEL_2((BDefect, Cross), (BKlass3, Thickness))
+STATUS_LABEL_2((BDefect, Long), (BKlass3, Thickness))
+
 
 #undef COLOR_DATA
 #undef STATUS_LABEL

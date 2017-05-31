@@ -23,8 +23,15 @@ template<class X, class P>struct __status__<BKlass2<X>, P>
 	typedef BKlass2<X> O;
 	void operator()(O *, P *p)
 	{
-		//p->res &= ~(Asu::brak << Offs<X>::value);
 		p->res |= Asu::klass2 << Offs<X>::value;
+	}
+};
+template<class X, class P>struct __status__<BKlass3<X>, P>
+{
+	typedef BKlass3<X> O;
+	void operator()(O *, P *p)
+	{
+		p->res |= Asu::klass3 << Offs<X>::value;
 	}
 };
 template<class X, class P>struct __status__<BDefect<X>, P>
@@ -32,7 +39,6 @@ template<class X, class P>struct __status__<BDefect<X>, P>
 	typedef BDefect<X> O;
 	void operator()(O *, P *p)
 	{
-		//p->res &= ~(Asu::brak << Offs<X>::value);
 		p->res |= Asu::brak << Offs<X>::value;
 	}
 };
@@ -92,21 +98,9 @@ void ForAsu(unsigned length, unsigned cut0, unsigned cut1, unsigned char *zones,
 	zones[length - 1] = 0;
 	for(unsigned i = 1; i < length - 1; ++i)
 	{
-		//zones[i] = (Asu::ok << 0) | (Asu::ok << 2) | (Asu::ok << 4);
 		__conv__ xxxx = {inp[i], 0};
 		TL::find<ColorTable::items_list, __wapp__>()((TL::Factory<ColorTable::items_list> *)0, &xxxx);
 		zones[i] = xxxx.res;
-		//for(int j = 0; j < 3; ++j)
-		//{
-		//	int t = zones[i] & (Asu::brak << (j * 2));
-		//	if((Asu::klass2 << (j * 2)) == t) zones[i] |= Asu::klass2 << 6;
-		//	if((Asu::brak << (j * 2)) == t) 
-		//	{
-		//		zones[i] |= Asu::brak << 6;
-		//		break;
-		//	}
-		//}
-
 	}
 }
 
@@ -114,7 +108,6 @@ unsigned ResultTube(unsigned start, unsigned stop, unsigned char *zones)
 {
 	for(unsigned i = start; i < stop; ++i)
 	{
-		//if((Asu::klass2 << 6) == (zones[i] & (Asu::brak << 6))) return Asu::klass2;
 		if( 0 != (zones[i] & ((Asu::klass2 << 0)|(Asu::klass2 << 2)|(Asu::klass2 << 4))))
 			return Asu::klass2;
 	}
@@ -179,30 +172,6 @@ void ComputeDataAsu()
 		resData.klass = Asu::brak;
 		resData.brak = true;
 	}
-/*
-	if(0 == cuttingLen && 0 == resData.cutting0 && 0 == resData.cutting1)
-	{
-			cuttingLen = length;
-			result = ResultTube(0,  resData.currentOffset, zones);
-	}
-	else if(cuttingLen < 0)
-	{
-		cuttingLen = length - resData.cutting0;
-		result = ResultTube(resData.cutting0 + 1, length, zones);		
-	}
-	else
-	{
-		result = ResultTube(resData.cutting0 + 1, resData.cutting1 - 1, zones);
-	}
-
-	if(
-		cuttingLen < (int)thesholds.get<MimimumTubeLength>().value
-		)
-	{
-		result = Asu::brak;
-		resData.brak = true;
-	}
-   //*/ 
 }
 
 bool SendAsuBrak()
