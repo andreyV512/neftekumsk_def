@@ -21,43 +21,18 @@ namespace
 }
 unsigned ACh13::lastTime;
 bool ACh13::res;
-bool ACh13::Do()
+bool ACh13::Do(unsigned)
 {
-	//1unsigned t = timeGetTime();
-	//1if(t > lastTime)
-	//1{
-	//1	lastTime = t + 3000;
-	//1	double d = analogBoard.ReadAsunc(solenoid0Id);
-	//1	res = d > tresh0;
-	//1	if(res)
-	//1	{
-	//1		Log::Mess<LogMess::TemperatureOverheadedSolenoid0>();
-	//1	}
-	//1}
-	return false;//return res;
-	//return res;
 	return false;
 }
 unsigned ACh14::lastTime;
 bool ACh14::res;
-bool ACh14::Do()
+bool ACh14::Do(unsigned)
 {
-	//unsigned t = timeGetTime();
-	//if(t > lastTime)
-	//{
-	//	lastTime = t + 3000;
-	//	double d = analogBoard.ReadAsunc(solenoid1Id);
-	//	res = d > tresh1;
-	//	if(res)
-	//	{
-	//		Log::Mess<LogMess::TemperatureOverheadedSolenoid1>();
-	//	}
-	//}
-	//return res;
 	return false;
 }
 
-bool ACh15::Do()
+bool ACh15::Do(unsigned)
 {
-	return true;//analogBoard.ReadAsunc(magneticId) < 1.0;
+	return true;
 }

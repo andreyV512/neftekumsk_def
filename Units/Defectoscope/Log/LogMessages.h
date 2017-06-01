@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #define __double_1 " %.1f" 
 #define __double_2 " %.2f"
@@ -42,6 +42,8 @@ namespace LogMess
 		, TimeoutPipe
 		, AutomatMode
 		, SingleMode
+
+		, NonOperatingModule
 
 		, ProgramClosed
 		, ErrStop
@@ -141,82 +143,84 @@ namespace LogMess
 	static const int yellow = 0xffff;
 
 	template<int >struct Row;
-	///\brief сопоставление числу сообщениея
-	///\param число из перечисления ID(см. выше)
-	///\param тип дополнительного параметра
-	///\param сообщение
-	///\param цвет фона
-	///\param цвет шрифта
-	MESS(StartSycle			          , void  , "Цикл старт"                     , green, black)
-    MESS(StopSycle			          , void  , "Цикл стоп"				        , blue , white)
-	MESS1(OverheadTemperature         , double, "Температура превышена"	        , red  , yellow)
-	MESS(ProgramOpen		          , void  , "Программа открыта"              , black, white)
+	///\brief СЃРѕРїРѕСЃС‚Р°РІР»РµРЅРёРµ С‡РёСЃР»Сѓ СЃРѕРѕР±С‰РµРЅРёРµСЏ
+	///\param С‡РёСЃР»Рѕ РёР· РїРµСЂРµС‡РёСЃР»РµРЅРёСЏ ID(СЃРј. РІС‹С€Рµ)
+	///\param С‚РёРї РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕРіРѕ РїР°СЂР°РјРµС‚СЂР°
+	///\param СЃРѕРѕР±С‰РµРЅРёРµ
+	///\param С†РІРµС‚ С„РѕРЅР°
+	///\param С†РІРµС‚ С€СЂРёС„С‚Р°
+	MESS(StartSycle			          , void  , "Р¦РёРєР» СЃС‚Р°СЂС‚"                     , green, black)
+    MESS(StopSycle			          , void  , "Р¦РёРєР» СЃС‚РѕРї"				        , blue , white)
+	MESS1(OverheadTemperature         , double, "РўРµРјРїРµСЂР°С‚СѓСЂР° РїСЂРµРІС‹С€РµРЅР°"	        , red  , yellow)
+	MESS(ProgramOpen		          , void  , "РџСЂРѕРіСЂР°РјРјР° РѕС‚РєСЂС‹С‚Р°"              , black, white)
 							          
-	MESS(TimeoutPipe		          , void  , "Превышенно время ожидания", red  , yellow)
+	MESS(TimeoutPipe		          , void  , "РџСЂРµРІС‹С€РµРЅРЅРѕ РІСЂРµРјСЏ РѕР¶РёРґР°РЅРёСЏ", red  , yellow)
 							          
-	MESS(AutomatMode		          , void  , "Режим \"Автоматический\""		, blue , white)
-	MESS(SingleMode			          , void  , "Режим \"Одиночное измерение\""	, blue , white)
+	MESS(AutomatMode		          , void  , "Р РµР¶РёРј \"РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРёР№\""		, blue , white)
+	MESS(SingleMode			          , void  , "Р РµР¶РёРј \"РћРґРёРЅРѕС‡РЅРѕРµ РёР·РјРµСЂРµРЅРёРµ\""	, blue , white)
 
-	MESS(PositionCrossUnit         , void , "Готовность поперечного модуля", green, black)
-    MESS(PositionThicknessUnit	  , void  , "Готовность модуля толщины", green, black)
-	MESS(PositionLongUnit         , void  , "Готовность продольного модуля", green, black)
+	MESS(PositionCrossUnit         , void , "Р“РѕС‚РѕРІРЅРѕСЃС‚СЊ РїРѕРїРµСЂРµС‡РЅРѕРіРѕ РјРѕРґСѓР»СЏ", green, black)
+    MESS(PositionThicknessUnit	  , void  , "Р“РѕС‚РѕРІРЅРѕСЃС‚СЊ РјРѕРґСѓР»СЏ С‚РѕР»С‰РёРЅС‹", green, black)
+	MESS(PositionLongUnit         , void  , "Р“РѕС‚РѕРІРЅРѕСЃС‚СЊ РїСЂРѕРґРѕР»СЊРЅРѕРіРѕ РјРѕРґСѓР»СЏ", green, black)
 
-	MESS(WaitPositionCrossUnit         , void , "Ожидание позиционирования поперечного модуля", green, yellow)
-    MESS(WaitPositionThicknessUnit	  , void  , "Ожидание позиционирования модуля толщины", green, yellow)
-	MESS(WaitPositionLongUnit         , void  , "Ожидание позиционирования продольного модуля", green, yellow)
-	MESS(WaitReadyFromThickness, void, "Ожидание готовности толщиномера", blue, red)
+	MESS(NonOperatingModule         , void  , "РњРѕРґСѓР»Рё РґРµС„РµРєС‚РѕСЃРєРѕРїР° РІ РЅРµСЂР°Р±РѕС‡РµРј РїРѕР»РѕР¶РµРЅРёРё", red  , yellow)
 
-	MESS(TestComPortOk   , void, "Тестирование ком-порта прошло успешно", green, blue)
-	MESS(TestComPortError, void, "Произошла ошибка при тестировании ком-порта", red, yellow)
-	MESS(TestComPort, void, "Тестирование ком-порта", blue, white);
+	MESS(WaitPositionCrossUnit         , void , "РћР¶РёРґР°РЅРёРµ РїРѕР·РёС†РёРѕРЅРёСЂРѕРІР°РЅРёСЏ РїРѕРїРµСЂРµС‡РЅРѕРіРѕ РјРѕРґСѓР»СЏ", green, yellow)
+    MESS(WaitPositionThicknessUnit	  , void  , "РћР¶РёРґР°РЅРёРµ РїРѕР·РёС†РёРѕРЅРёСЂРѕРІР°РЅРёСЏ РјРѕРґСѓР»СЏ С‚РѕР»С‰РёРЅС‹", green, yellow)
+	MESS(WaitPositionLongUnit         , void  , "РћР¶РёРґР°РЅРёРµ РїРѕР·РёС†РёРѕРЅРёСЂРѕРІР°РЅРёСЏ РїСЂРѕРґРѕР»СЊРЅРѕРіРѕ РјРѕРґСѓР»СЏ", green, yellow)
+	MESS(WaitReadyFromThickness, void, "РћР¶РёРґР°РЅРёРµ РіРѕС‚РѕРІРЅРѕСЃС‚Рё С‚РѕР»С‰РёРЅРѕРјРµСЂР°", blue, red)
 
-	MESS(WaitTubeOnPosition           , void ,  "Ожидание трубы перед позицией", blue, white)
+	MESS(TestComPortOk   , void, "РўРµСЃС‚РёСЂРѕРІР°РЅРёРµ РєРѕРј-РїРѕСЂС‚Р° РїСЂРѕС€Р»Рѕ СѓСЃРїРµС€РЅРѕ", green, blue)
+	MESS(TestComPortError, void, "РџСЂРѕРёР·РѕС€Р»Р° РѕС€РёР±РєР° РїСЂРё С‚РµСЃС‚РёСЂРѕРІР°РЅРёРё РєРѕРј-РїРѕСЂС‚Р°", red, yellow)
+	MESS(TestComPort, void, "РўРµСЃС‚РёСЂРѕРІР°РЅРёРµ РєРѕРј-РїРѕСЂС‚Р°", blue, white);
 
-	MESS(QueryNumberTube             , void, "Запрос номера трубы", blue, white)
-	MESS(ErrorNumberTube             , void, "АСУ на запрос номера трубы не отвечает", red, blue)
-	MESS(SetSignalStart, void, "Установлен сигнал \"Пуск\"", green, blue)
+	MESS(WaitTubeOnPosition           , void ,  "РћР¶РёРґР°РЅРёРµ С‚СЂСѓР±С‹ РїРµСЂРµРґ РїРѕР·РёС†РёРµР№", blue, white)
 
-	MESS(ContinueCycle, void, "Для продолжения нажмите кнопку \"Цикл\"", red, blue)
+	MESS(QueryNumberTube             , void, "Р—Р°РїСЂРѕСЃ РЅРѕРјРµСЂР° С‚СЂСѓР±С‹", blue, white)
+	MESS(ErrorNumberTube             , void, "РђРЎРЈ РЅР° Р·Р°РїСЂРѕСЃ РЅРѕРјРµСЂР° С‚СЂСѓР±С‹ РЅРµ РѕС‚РІРµС‡Р°РµС‚", red, blue)
+	MESS(SetSignalStart, void, "РЈСЃС‚Р°РЅРѕРІР»РµРЅ СЃРёРіРЅР°Р» \"РџСѓСЃРє\"", green, blue)
 
-	MESS(InCrossModule , void, "Труба вошла в модуль поперечного контроля", green, white)
-	MESS(InThickModule , void, "Труба вошла в модуль толщенометрии"       , green, white)
-	MESS(InLongModule  , void, "Труба вошла в модуль продольного контроля", green, white)
-    MESS(OutCrossModule, void, "Труба вышла из модуля поперечного контроля", blue, white)
-	MESS(OutThickModule, void, "Труба вышла из модуля толщенометрии"       , blue, white)
-	MESS(OutLongModule , void, "Труба вышла из модуля продольного контроля", blue, white)
+	MESS(ContinueCycle, void, "Р”Р»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ РЅР°Р¶РјРёС‚Рµ РєРЅРѕРїРєСѓ \"Р¦РёРєР»\"", red, blue)
+
+	MESS(InCrossModule , void, "РўСЂСѓР±Р° РІРѕС€Р»Р° РІ РјРѕРґСѓР»СЊ РїРѕРїРµСЂРµС‡РЅРѕРіРѕ РєРѕРЅС‚СЂРѕР»СЏ", green, white)
+	MESS(InThickModule , void, "РўСЂСѓР±Р° РІРѕС€Р»Р° РІ РјРѕРґСѓР»СЊ С‚РѕР»С‰РµРЅРѕРјРµС‚СЂРёРё"       , green, white)
+	MESS(InLongModule  , void, "РўСЂСѓР±Р° РІРѕС€Р»Р° РІ РјРѕРґСѓР»СЊ РїСЂРѕРґРѕР»СЊРЅРѕРіРѕ РєРѕРЅС‚СЂРѕР»СЏ", green, white)
+    MESS(OutCrossModule, void, "РўСЂСѓР±Р° РІС‹С€Р»Р° РёР· РјРѕРґСѓР»СЏ РїРѕРїРµСЂРµС‡РЅРѕРіРѕ РєРѕРЅС‚СЂРѕР»СЏ", blue, white)
+	MESS(OutThickModule, void, "РўСЂСѓР±Р° РІС‹С€Р»Р° РёР· РјРѕРґСѓР»СЏ С‚РѕР»С‰РµРЅРѕРјРµС‚СЂРёРё"       , blue, white)
+	MESS(OutLongModule , void, "РўСЂСѓР±Р° РІС‹С€Р»Р° РёР· РјРѕРґСѓР»СЏ РїСЂРѕРґРѕР»СЊРЅРѕРіРѕ РєРѕРЅС‚СЂРѕР»СЏ", blue, white)
 							          
-	MESS(ProgramClosed		          , void  , "Программа закрыта"	, red  , yellow)
+	MESS(ProgramClosed		          , void  , "РџСЂРѕРіСЂР°РјРјР° Р·Р°РєСЂС‹С‚Р°"	, red  , yellow)
 							          
-	MESS(ErrStop                      , void  , "Прерывание цикла измерения", red, yellow)
+	MESS(ErrStop                      , void  , "РџСЂРµСЂС‹РІР°РЅРёРµ С†РёРєР»Р° РёР·РјРµСЂРµРЅРёСЏ", red, yellow)
 
-	MESS(AlarmExitTubeInUnit          , void, "Труба в модуле, выполните выгон", red  , yellow)
-	MESS(AlarmExitDirectionChainOn    , void, "Включите цепи управления", red  , yellow)
-	MESS(AlarmExitInverterFaulty      , void, "Частотный преодразователь не включён", red  , yellow)
+	MESS(AlarmExitTubeInUnit          , void, "РўСЂСѓР±Р° РІ РјРѕРґСѓР»Рµ, РІС‹РїРѕР»РЅРёС‚Рµ РІС‹РіРѕРЅ", red  , yellow)
+	MESS(AlarmExitDirectionChainOn    , void, "Р’РєР»СЋС‡РёС‚Рµ С†РµРїРё СѓРїСЂР°РІР»РµРЅРёСЏ", red  , yellow)
+	MESS(AlarmExitInverterFaulty      , void, "Р§Р°СЃС‚РѕС‚РЅС‹Р№ РїСЂРµРѕРґСЂР°Р·РѕРІР°С‚РµР»СЊ РЅРµ РІРєР»СЋС‡С‘РЅ", red  , yellow)
 
-	MESS(AlarmExitRunBitIn			  , void, "Ошибка частотного преобразователя\"", red  , yellow)
-	MESS(AlarmExitControlCircuitBitIn , void, "Нет сигнала \"Цепи управления\""	   , red  , yellow)
-	MESS(AlarmExitWorkBitIn			  , void, "Нет сигнала \"Работа\""			   , red  , yellow)
-	MESS(AlarmExitSycleBitIn		  , void, "Нет сигнала \"Цикл\""			   , red  , yellow)
+	MESS(AlarmExitRunBitIn			  , void, "РћС€РёР±РєР° С‡Р°СЃС‚РѕС‚РЅРѕРіРѕ РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚РµР»СЏ\"", red  , yellow)
+	MESS(AlarmExitControlCircuitBitIn , void, "РќРµС‚ СЃРёРіРЅР°Р»Р° \"Р¦РµРїРё СѓРїСЂР°РІР»РµРЅРёСЏ\""	   , red  , yellow)
+	MESS(AlarmExitWorkBitIn			  , void, "РќРµС‚ СЃРёРіРЅР°Р»Р° \"Р Р°Р±РѕС‚Р°\""			   , red  , yellow)
+	MESS(AlarmExitSycleBitIn		  , void, "РќРµС‚ СЃРёРіРЅР°Р»Р° \"Р¦РёРєР»\""			   , red  , yellow)
 
 
-	MESS(InfoOnWorkBitIn                , void, "Ожидание сигнала \"Работа\""					  , blue , white)
-	MESS(InfoOffWorkBitIn				, void, "Ожидание снятия сигнала \"Работа\""			  , green, blue)
-	MESS(InfoDataReceive				, void, "Данные с дефектоскопа приняты"                   , blue, yellow)
-	MESS(InfoReadyBitOut	            , void, "Выставлен сигнал \"Готовность\""				  , blue , white)
-	MESS(InfoOnResultBitOut             , void, "Выставлен сигнал \"Результат\""                 , blue , white)
-	MESS(InfoOnSycleBitIn               , void, "Ожидание сигнала \"Цикл\""					  , blue , white)
-	MESS(InfoRotationalSpeedSensorsStart, void, "Включение вращения модуля датчиков сканирования", blue , white)
-	MESS(InfoOnRunBitIn                 , void, "Ожидание раскрутки модуля датчиков сканирования", blue , white)
-	MESS(InfoControlBitOut              , void, "Выставлен сигнал \"Контроль\""				  , blue , white)
-	MESS(InfoOnSQ1BitIn	                , void, "Ожидание трубы на датчике SQ1"				  , blue , white)
-	MESS(InfoPowerScannerBitOut         , void, "Включение сканирующего устройства"			  , blue , white)
-	MESS(InfoOnSQ3BitIn	                , void, "Ожидание трубы на датчике SQ3"				  , blue , white)
-	MESS(InfoOffSQ1BitIn                , void, "Ожидание съезда трубы с датчика SQ1"			  , blue , white)
-	MESS(InfoOffPowerScannerBitOut      , void, "Отключение сканирующего устройства"		      , blue , white)
-	MESS(InfoOffSQ3BitIn                , void, "Ожидание съезда трубы с датчика SQ3"			  , blue , white)
-	MESS(InfoUserStop					, void, "Оператор вышел из цикла сбора данных"			  , red  , yellow)
+	MESS(InfoOnWorkBitIn                , void, "РћР¶РёРґР°РЅРёРµ СЃРёРіРЅР°Р»Р° \"Р Р°Р±РѕС‚Р°\""					  , blue , white)
+	MESS(InfoOffWorkBitIn				, void, "РћР¶РёРґР°РЅРёРµ СЃРЅСЏС‚РёСЏ СЃРёРіРЅР°Р»Р° \"Р Р°Р±РѕС‚Р°\""			  , green, blue)
+	MESS(InfoDataReceive				, void, "Р”Р°РЅРЅС‹Рµ СЃ РґРµС„РµРєС‚РѕСЃРєРѕРїР° РїСЂРёРЅСЏС‚С‹"                   , blue, yellow)
+	MESS(InfoReadyBitOut	            , void, "Р’С‹СЃС‚Р°РІР»РµРЅ СЃРёРіРЅР°Р» \"Р“РѕС‚РѕРІРЅРѕСЃС‚СЊ\""				  , blue , white)
+	MESS(InfoOnResultBitOut             , void, "Р’С‹СЃС‚Р°РІР»РµРЅ СЃРёРіРЅР°Р» \"Р РµР·СѓР»СЊС‚Р°С‚\""                 , blue , white)
+	MESS(InfoOnSycleBitIn               , void, "РћР¶РёРґР°РЅРёРµ СЃРёРіРЅР°Р»Р° \"Р¦РёРєР»\""					  , blue , white)
+	MESS(InfoRotationalSpeedSensorsStart, void, "Р’РєР»СЋС‡РµРЅРёРµ РІСЂР°С‰РµРЅРёСЏ РјРѕРґСѓР»СЏ РґР°С‚С‡РёРєРѕРІ СЃРєР°РЅРёСЂРѕРІР°РЅРёСЏ", blue , white)
+	MESS(InfoOnRunBitIn                 , void, "РћР¶РёРґР°РЅРёРµ СЂР°СЃРєСЂСѓС‚РєРё РјРѕРґСѓР»СЏ РґР°С‚С‡РёРєРѕРІ СЃРєР°РЅРёСЂРѕРІР°РЅРёСЏ", blue , white)
+	MESS(InfoControlBitOut              , void, "Р’С‹СЃС‚Р°РІР»РµРЅ СЃРёРіРЅР°Р» \"РљРѕРЅС‚СЂРѕР»СЊ\""				  , blue , white)
+	MESS(InfoOnSQ1BitIn	                , void, "РћР¶РёРґР°РЅРёРµ С‚СЂСѓР±С‹ РЅР° РґР°С‚С‡РёРєРµ SQ1"				  , blue , white)
+	MESS(InfoPowerScannerBitOut         , void, "Р’РєР»СЋС‡РµРЅРёРµ СЃРєР°РЅРёСЂСѓСЋС‰РµРіРѕ СѓСЃС‚СЂРѕР№СЃС‚РІР°"			  , blue , white)
+	MESS(InfoOnSQ3BitIn	                , void, "РћР¶РёРґР°РЅРёРµ С‚СЂСѓР±С‹ РЅР° РґР°С‚С‡РёРєРµ SQ3"				  , blue , white)
+	MESS(InfoOffSQ1BitIn                , void, "РћР¶РёРґР°РЅРёРµ СЃСЉРµР·РґР° С‚СЂСѓР±С‹ СЃ РґР°С‚С‡РёРєР° SQ1"			  , blue , white)
+	MESS(InfoOffPowerScannerBitOut      , void, "РћС‚РєР»СЋС‡РµРЅРёРµ СЃРєР°РЅРёСЂСѓСЋС‰РµРіРѕ СѓСЃС‚СЂРѕР№СЃС‚РІР°"		      , blue , white)
+	MESS(InfoOffSQ3BitIn                , void, "РћР¶РёРґР°РЅРёРµ СЃСЉРµР·РґР° С‚СЂСѓР±С‹ СЃ РґР°С‚С‡РёРєР° SQ3"			  , blue , white)
+	MESS(InfoUserStop					, void, "РћРїРµСЂР°С‚РѕСЂ РІС‹С€РµР» РёР· С†РёРєР»Р° СЃР±РѕСЂР° РґР°РЅРЅС‹С…"			  , red  , yellow)
 
-	MESS(InfoDataCollectionComplete		, void, "Сбор данных закончен"                           , green, white);
+	MESS(InfoDataCollectionComplete		, void, "РЎР±РѕСЂ РґР°РЅРЅС‹С… Р·Р°РєРѕРЅС‡РµРЅ"                           , green, white);
 
 	MESS(SQ1BitIn             , bool, "SQ1BitIn            ", white, black)
 	MESS(SQ3BitIn             , bool, "SQ3BitIn            ", white, black)
@@ -237,11 +241,11 @@ namespace LogMess
 	MESS(ControlBitOut        , bool, "ControlBitOut       ", white, black)
 	MESS(ResultBitOut   	  , bool, "ResultBitOut   	 "  , white, black)
 
-	MESS(TemperatureOverheadedSolenoid0, void, "Превышена температура на соленоиде 1", red, yellow)
-	MESS(TemperatureOverheadedSolenoid1, void, "Превышена температура на соленоиде 2", red, yellow)
+	MESS(TemperatureOverheadedSolenoid0, void, "РџСЂРµРІС‹С€РµРЅР° С‚РµРјРїРµСЂР°С‚СѓСЂР° РЅР° СЃРѕР»РµРЅРѕРёРґРµ 1", red, yellow)
+	MESS(TemperatureOverheadedSolenoid1, void, "РџСЂРµРІС‹С€РµРЅР° С‚РµРјРїРµСЂР°С‚СѓСЂР° РЅР° СЃРѕР»РµРЅРѕРёРґРµ 2", red, yellow)
 
-	MESS(HighVoltageOn , void, "Включено высокое напряжение", red, yellow)
-	MESS(HighVoltageOff, void, "Высокое напряжение отключено", white, blue)
+	MESS(HighVoltageOn , void, "Р’РєР»СЋС‡РµРЅРѕ РІС‹СЃРѕРєРѕРµ РЅР°РїСЂСЏР¶РµРЅРёРµ", red, yellow)
+	MESS(HighVoltageOff, void, "Р’С‹СЃРѕРєРѕРµ РЅР°РїСЂСЏР¶РµРЅРёРµ РѕС‚РєР»СЋС‡РµРЅРѕ", white, blue)
 
 	class FactoryMessages
 	{

@@ -29,7 +29,7 @@ public:
 	void Clear();
 	unsigned Tick0();
 	unsigned Tick1();
-	static void Do();
+	static void Do(unsigned);
 	void __Do__();
 	void SetTick1();
 	template<class T>void SetCross(T *t, void(T::*ptr)(Data &))

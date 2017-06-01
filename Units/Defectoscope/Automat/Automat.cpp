@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "Automat.h"
 #include <MMSystem.h>
 #include "App.h"
@@ -26,6 +26,9 @@ struct Impl
 	struct ExceptionStopProc{};
 	struct ExceptionTimeOutProc{};
 	struct ExceptionContinueProc{};
+
+	//struct ExceptionMissingSignalFromLift{};
+
 	HANDLE hThread;
 	static bool block;
 	static unsigned &sycle_ts;
@@ -124,7 +127,6 @@ struct Impl
 		void operator()(O *o, P *p)
 		{
 			*p |= o->value;
-			//zprint("bit %s\n", typeid(O).name());
 		}
 	};
 	template<class O, class P>struct __bits_1__
@@ -132,7 +134,6 @@ struct Impl
 		void operator()(O *o, P *p)
 		{
 			((unsigned short *)p)[1] |= o->value;
-			//zprint("bit %s\n", typeid(O).name());
 		}
 	};
 
@@ -175,16 +176,24 @@ struct Impl
 
 			__sel_bits__<typename __filtr__<List, InputsTable<1>::items_list>::Result, __bits_1__>()
 				(&Singleton<InputsTable<1> >::Instance().items, &bits);
-
-			//zprint("  list\n");
 		}
 	};
 	template<>struct SelectBits<NullType>
 	{
-		void operator()(unsigned &bits)
+		void operator()(unsigned &bits){}
+	};
+
+	/// \brief РїСЂРѕРІРµСЂРєР° РіРѕС‚РѕРІРЅРѕСЃС‚Рё РјРѕРґСѓР»РµР№ РґРµС„РµРєС‚РѕСЃРєРѕРїР°
+	struct ExceptionMissingSignalFromLift
+	{
+		static void Do(unsigned input_bits)
 		{
+			unsigned msk = 0;
+			SelectBits<TL::MkTlst<WCROSS, WTHICK, WLINE>::Result>()(msk);
+			if(msk != (input_bits & msk)) throw	ExceptionMissingSignalFromLift();
 		}
 	};
+
 
 	template<class List>struct BitsOut
 	{
@@ -207,22 +216,22 @@ struct Impl
 
 	template<class O, class P>struct __default_do__
 	{
-		void operator()(O *, P *)
+		void operator()(O *, P *bits)
 		{
-			O::Do();
+			O::Do(*bits);
 		}
 	};
 
 	template<class List>struct DefaultDo
 	{
-		void operator()()
+		void operator()(unsigned bits)
 		{
-			TL::foreach<List, __default_do__>()((TL::Factory<List> *)0, (int *)0);
+			TL::foreach<List, __default_do__>()((TL::Factory<List> *)0, &bits);
 		}
 	};
 	template<>struct DefaultDo<NullType>
 	{
-		void operator()(){}
+		void operator()(unsigned bits){}
 	};
 
 	template<class O, class P>struct __once_do__
@@ -281,7 +290,7 @@ struct Impl
 						dprint("ExceptionStopProc  %x\n", sycle_ts);
 						throw ExceptionStopProc();
 					}
-					DefaultDo<typename Filt<List, Proc>::Result>()();
+					DefaultDo<typename Filt<List, Proc>::Result>()(res);
 					if(GetTickCount() >= delay) throw ExceptionTimeOutProc();
 				}
 				else
@@ -326,11 +335,9 @@ struct Impl
 					}
 					if(Impl::block && !(res & (sycle_ts << 16)))
 					{
-						//dprint("ExceptionStopProc\n");
-						//Sleep(100);
 						throw ExceptionStopProc();
 					}
-					DefaultDo<typename Filt<List, Proc>::Result>()();
+					DefaultDo<typename Filt<List, Proc>::Result>()(res);
 					if(GetTickCount() >= delay) throw ExceptionTimeOutProc();
 				}
 				else
@@ -388,7 +395,6 @@ namespace
 
 void Automat::RotationOn()
 {
-	//Impl::OUT_Bits<TL::MkTlst<Impl::On<POWPCH>, Impl::On<STF>>::Result>();
 	if(Singleton<SpeedTable>::Instance().items.get<SpeedRL>().value)
 	{
 		Impl::OUT_Bits<TL::MkTlst<Impl::On<RL>>::Result>()();
@@ -420,6 +426,7 @@ void Automat::RotationOff()
 	Impl::OUT_Bits<TL::MkTlst<Impl::On<POWPCH>, Impl::Off<STF>>::Result>()();
 }
 
+
 void Impl::Do()
 {
 	Log::Mess<LogMess::ProgramOpen>(0);
@@ -446,19 +453,19 @@ void Impl::Do()
 				SET_BITS(On<POWPCH>);
 				Sleep(3000);
 				AND_BITS(Ex<ExceptionContinueProc>, Proc<ACh13>, Proc<ACh14>)();
-				if(ACh13::Do() || ACh14::Do())
+				if(ACh13::Do(0) || ACh14::Do(0))
 				{
 					ResetEvent(App::ProgrammContinueEvent);
 					continue;
 				}
 
 				Log::Mess<LogMess::PositionCrossUnit>();
-				OUT_BITS(On<RCROSS>);//готовность пореречника
+				OUT_BITS(On<RCROSS>);//РіРѕС‚РѕРІРЅРѕСЃС‚СЊ РїРѕСЂРµСЂРµС‡РЅРёРєР°
 				
 				Log::Mess<LogMess::PositionLongUnit>();
 				if(onTheJobLong)
 				{
-					OUT_BITS(On<RLINE>);//готовность продольника
+					OUT_BITS(On<RLINE>);//РіРѕС‚РѕРІРЅРѕСЃС‚СЊ РїСЂРѕРґРѕР»СЊРЅРёРєР°
 				}
 				else
 				{
@@ -468,11 +475,11 @@ void Impl::Do()
 				Log::Mess<LogMess::PositionThicknessUnit>();
 				if(onTheJobThickness)
 				{
-					OUT_BITS(On<RTHICK>);//готовность толщиномера
+					OUT_BITS(On<RTHICK>);//РіРѕС‚РѕРІРЅРѕСЃС‚СЊ С‚РѕР»С‰РёРЅРѕРјРµСЂР°
 				}
 				else
 				{
-					OUT_BITS(Off<RTHICK>);//г
+					OUT_BITS(Off<RTHICK>);//Рі
 				}
 
 				Sleep(3000);
@@ -493,47 +500,10 @@ void Impl::Do()
 				Log::Mess<LogMess::StartSycle>();
 
 
-				AND_BITS(On<TPP_TS>, On<CYCLE_TS>, Ex<ExceptionStopProc>)(60 * 60 * 1000);//ожидание цикла
+				AND_BITS(On<TPP_TS>, On<CYCLE_TS>, Ex<ExceptionStopProc>)(60 * 60 * 1000);//РѕР¶РёРґР°РЅРёРµ С†РёРєР»Р°
 				OUT_BITS(Off<RESULT>);
 
 				dprint("Start Cycle  %x\n", sycle_ts);
-
-				//Log::Mess<LogMess::PositionCrossUnit>();
-				//OUT_BITS(On<RCROSS>);//готовность пореречника
-				//
-				//Log::Mess<LogMess::PositionLongUnit>();
-				//if(onTheJobLong)
-				//{
-				//	OUT_BITS(On<RLINE>);//готовность продольника
-				//}
-				//else
-				//{
-				//	OUT_BITS(Off<RLINE>);//
-				//}
-				//
-				//Log::Mess<LogMess::PositionThicknessUnit>();
-				//if(onTheJobThickness)
-				//{
-				//	OUT_BITS(On<RTHICK>);//готовность толщиномера
-				//}
-				//else
-				//{
-				//	OUT_BITS(Off<RTHICK>);//г
-				//}
-
-
-				//Sleep(1000);
-				//dprint("wait for CROSS position\n");
-				//Log::Mess<LogMess::WaitPositionCrossUnit>();
-				//AND_BITS(On<WCROSS>, Ex<ExceptionStopProc>)(360000);
-				//Sleep(1000);
-				//dprint("wait for THICKNESS position\n");
-				//Log::Mess<LogMess::WaitPositionThicknessUnit>();
-				//AND_BITS(On<WTHICK>, Ex<ExceptionStopProc>)(360000);
-				//Sleep(1000);
-				//dprint("wait for LONG position\n");
-				//Log::Mess<LogMess::WaitPositionLongUnit>();
-				//AND_BITS(On<WLINE>, Ex<ExceptionStopProc>)(360000);				
 
 				if(onTheJobLong)
 				{
@@ -565,27 +535,6 @@ void Impl::Do()
 					OUT_BITS(On<POWSU>);  
 					Sleep(1000);
 					AND_BITS(On<WLINE>, On<PCHA>, Off<PCHRUN>, Ex<ExceptionStopProc>);
-
-					                                                   //Ожидание
-					//bool b = false;															 //высокого
-					//for(int i = 0; i < 100; ++i)                                              //напряжения
-					//{																		 //на поперечнике
-					//	if(WAIT_OBJECT_0 == WaitForSingleObject(App::ProgrammStopEvent, 100))//
-					//	{																	 //
-					//		throw ExceptionStopProc();										 //
-					//	}																	 //
-					//	b = ACh15::Do();	                                                 //
-					//	if(b) 
-					//	{
-                    //        Log::Mess<LogMess::HighVoltageOn>();
-					//		break;														 //
-					//	}
-					//}																		 //
-					//if(!b)
-					//{
-					//	Log::Mess<LogMess::HighVoltageOff>();
-					//	throw ExceptionTimeOutProc();	
-					//}
 				}				
 
 				if(onTheJobThickness)
@@ -617,10 +566,10 @@ void Impl::Do()
 
 				dprint("number tube %s     \n", Singleton<ResultViewerData>::Instance().numberTube);
 				Log::Mess<LogMess::SetSignalStart>();
-				OUT_BITS(On<START>); //старт цикла
+				OUT_BITS(On<START>); //СЃС‚Р°СЂС‚ С†РёРєР»Р°
 
 				lir.Clear();
-				AND_BITS(On<SQfirst>, Ex<ExceptionStopProc>)(360000);//-------------------------------------------------------------------------------------------------------------
+				AND_BITS(On<SQfirst>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(360000);//-------------------------------------------------------------------------------------------------------------
 
 				if(onTheJobLong) OUT_BITS(On<POWSU>);
 
@@ -629,65 +578,64 @@ void Impl::Do()
 
 				analogBoard.Start();
 
-				AND_BITS(On<SQcrossIN>, Proc<Lir>, Once<CrossSQ0on>, Ex<ExceptionStopProc>)(10000);
+				AND_BITS(On<SQcrossIN>, Proc<Lir>, Once<CrossSQ0on>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(10000);
 				dprint("AND_BITS(On<SQcrossIN>, Proc<Lir>, Once<CrossSQ0on>)(10000)\n");
 				Log::Mess<LogMess::InCrossModule>();
-				AND_BITS(On<SQcrossOUT>, Proc<Lir>, Once<CrossSQ1on>, Ex<ExceptionStopProc>)(10000);
+				AND_BITS(On<SQcrossOUT>, Proc<Lir>, Once<CrossSQ1on>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(10000);
 				Log::Mess<LogMess::InCrossModule>();
 				lir.Start0();
 				if(onTheJobThickness)
 				{
-					AND_BITS(On<SQthickIN>, Proc<Lir>, Once<ThicknessSQ0on>, Ex<ExceptionStopProc>)(10000);
+					AND_BITS(On<SQthickIN>, Proc<Lir>, Once<ThicknessSQ0on>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(10000);
 					Log::Mess<LogMess::InThickModule>();
-					AND_BITS(On<SQthickOUT>, Proc<Lir>, Once<ThicknessSQ1on>, Ex<ExceptionStopProc>)(10000);
+					AND_BITS(On<SQthickOUT>, Proc<Lir>, Once<ThicknessSQ1on>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(10000);
 					Log::Mess<LogMess::InThickModule>();
 				}
 
 				if(onTheJobLong)
 				{
-					AND_BITS(On<SQlongIN>, Proc<Lir>,  Once<LongSQ0on>, Ex<ExceptionStopProc>)(10000);
+					AND_BITS(On<SQlongIN>, Proc<Lir>,  Once<LongSQ0on>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(10000);
 					Log::Mess<LogMess::InLongModule>();
-					AND_BITS(On<SQlongOUT>, Proc<Lir>,  Once<LongSQ1on>, Ex<ExceptionStopProc>)(10000);
+					AND_BITS(On<SQlongOUT>, Proc<Lir>,  Once<LongSQ1on>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(10000);
 					Log::Mess<LogMess::InLongModule>();
 				}
 
-				AND_BITS(On<BASE_TS>, Proc<Lir>, Ex<ExceptionStopProc>)(360000);	
+				AND_BITS(On<BASE_TS>, Proc<Lir>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(360000);	
 				lir.Stop0();
 
-				AND_BITS(Off<SQfirst>, Proc<Lir>, Ex<ExceptionStopProc>)(360000);
+				AND_BITS(Off<SQfirst>, Proc<Lir>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(360000);
 				lir.SetTick1();
 
-				AND_BITS(Off<SQcrossIN>, Proc<Lir>,  Once<CrossSQ0off>, Ex<ExceptionStopProc>)(10000);
+				AND_BITS(Off<SQcrossIN>, Proc<Lir>,  Once<CrossSQ0off>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(10000);
 				dprint("AND_BITS(Off<SQcrossIN>, Proc<Lir>,  Once<CrossSQ0off>)(60000);\n");
 				Log::Mess<LogMess::OutCrossModule>();
-				AND_BITS(Off<SQcrossOUT>, Proc<Lir>,  Once<CrossSQ1off>, Ex<ExceptionStopProc>)(10000);
+				AND_BITS(Off<SQcrossOUT>, Proc<Lir>,  Once<CrossSQ1off>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(10000);
 				lir.Start1();
 				if(onTheJobThickness)
 				{
-					AND_BITS(Off<SQthickIN>, Proc<Lir>,  Once<ThicknessSQ0off>, Ex<ExceptionStopProc>)(30000);
+					AND_BITS(Off<SQthickIN>, Proc<Lir>,  Once<ThicknessSQ0off>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(30000);
 					Log::Mess<LogMess::OutThickModule>();
 					AND_BITS(Off<SQthickOUT>, Proc<Lir>
 						, Once<ThicknessSQ1off>
 						, Once<TcpClientSetStrobe>
-						, Ex<ExceptionStopProc>)(10000);
+						, Ex<ExceptionStopProc>
+						, Proc<ExceptionMissingSignalFromLift>
+						)(10000);
 				}
 
 				if(onTheJobLong)
 				{
-					AND_BITS(Off<SQlongIN>, Proc<Lir>,  Once<LongSQ0off>, Ex<ExceptionStopProc>)(30000);
+					AND_BITS(Off<SQlongIN>, Proc<Lir>,  Once<LongSQ0off>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(30000);
 					Log::Mess<LogMess::OutLongModule>();
-					AND_BITS(Off<SQlongOUT>, Proc<Lir>,  Once<LongSQ1off>, Ex<ExceptionStopProc>)(10000);
+					AND_BITS(Off<SQlongOUT>, Proc<Lir>,  Once<LongSQ1off>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(10000);
 
 					OUT_BITS(Off<STF>, Off<RH>, Off<RM>, Off<RL>);
 				}
 
 				analogBoard.Stop();
-				OUT_BITS(Off<CYCLE>, Off<POWSU>);
-
+				OUT_BITS(Off<CYCLE>, Off<POWSU>);				
 				
-				
-				
-				AND_BITS(Off<BASE_TS>, Ex<ExceptionStopProc>)(360000);	
+				AND_BITS(Off<BASE_TS>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(360000);	
 				lir.Stop1();
 				lir.TestLir();
 
@@ -710,39 +658,27 @@ void Impl::Do()
 			}
 			catch(ExceptionStopProc)
 			{
-				//Impl::block = false;
 				ResetEvent(App::ProgrammContinueEvent);
-				//App::measurementOfRunning = false;	//оператор вышл из цикла измерения
 				Log::Mess<LogMess::InfoUserStop>();
-				//analogBoard.Stop();
-				//OUT_BITS(Off<CYCLE>, Off<POWSU>, Off<START>, Off<RESULT>);
-				//OUT_BITS(Off<STF>, Off<RH>, Off<RM>, Off<RL>);
 			}
 			catch(ExceptionTimeOutProc)
 			{
-				//Impl::block = false;
 				ResetEvent(App::ProgrammContinueEvent);
-				//App::measurementOfRunning = false;	//программа вышла из цикла измерения при превышении времени ожидания
 				Log::Mess<LogMess::TimeoutPipe>();
-				//analogBoard.Stop();
-				//OUT_BITS(Off<CYCLE>, Off<POWSU>, Off<START>, Off<RESULT>);
-				//OUT_BITS(Off<STF>, Off<RH>, Off<RM>, Off<RL>);
+			}
+			catch(ExceptionMissingSignalFromLift)
+			{
+				ResetEvent(App::ProgrammContinueEvent);
+				Log::Mess<LogMess::NonOperatingModule>();
 			}
 		}
 	}
 	catch(ExceptionExitProc)
 	{
-		//analogBoard.Stop();
-		//OUT_BITS(Off<CYCLE>, Off<POWSU>, Off<START>, Off<RESULT>);
-		//OUT_BITS(Off<STF>, Off<RH>, Off<RM>, Off<RL>);
-	//	CloseHandle(hThread);
-	//	Log::Mess<LogMess::ProgramClosed>(0);
 	}
 	CloseHandle(hThread);
 	Log::Mess<LogMess::ProgramClosed>(0);
 	device1730_0.Write(0);
-	//OUT_BITS(Off<CYCLE>, Off<POWSU>, Off<START>, Off<RESULT>);
-	//OUT_BITS(Off<STF>, Off<RH>, Off<RM>, Off<RL>);
 	analogBoard.Stop();
 }
 

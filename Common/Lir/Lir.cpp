@@ -76,7 +76,7 @@ void Lir::__Do__()
 	(oLong->*ptrLong)(data);
 	(oThick->*ptrThick)(data);
 }
-void Lir::Do()
+void Lir::Do(unsigned)
 {
 	lir.__Do__();
 }
