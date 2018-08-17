@@ -640,7 +640,12 @@ void Impl::Do()
 				lir.Stop1();
 				lir.TestLir();
 
-				if(onTheJobThickness)WaitForSingleObject(App::WaitThicknessEvent, 5 * 60 * 60 * 1000);
+				if(onTheJobThickness)
+				{
+					Log::Mess<LogMess::SendStrobes>();
+					WaitForSingleObject(App::WaitThicknessEvent, INFINITE);
+					ResetEvent(App::WaitThicknessEvent);
+				}
 
 				Singleton<Compute>::Instance().Recalculation();
 

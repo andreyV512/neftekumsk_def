@@ -45,7 +45,7 @@ void App::Init()
 	App::ProgrammExitEvent		= CreateEvent(NULL, TRUE, FALSE, NULL);
 	App::ProgrammContinueEvent	= CreateEvent(NULL, TRUE, FALSE, NULL);
 	App::ProgrammStopEvent		= CreateEvent(NULL, FALSE, FALSE, NULL);
-	App::WaitThicknessEvent     = CreateEvent(NULL, FALSE, FALSE, NULL);
+	App::WaitThicknessEvent     = CreateEvent(NULL, TRUE, FALSE, NULL);
 	/////tes
 	//SendDataAsu();
 	////est	 

@@ -130,6 +130,8 @@ namespace LogMess
 		, HighVoltageOn
 		, HighVoltageOff
 
+		, SendStrobes
+
 		, max_row
 	};
 
@@ -246,6 +248,8 @@ namespace LogMess
 
 	MESS(HighVoltageOn , void, "Включено высокое напряжение", red, yellow)
 	MESS(HighVoltageOff, void, "Высокое напряжение отключено", white, blue)
+
+	MESS(SendStrobes, void, "Ожидание результата от толщиномера",  blue, yellow)
 
 	class FactoryMessages
 	{
