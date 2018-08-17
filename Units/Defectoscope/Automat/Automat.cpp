@@ -569,7 +569,8 @@ void Impl::Do()
 				OUT_BITS(On<START>); //старт цикла
 
 				lir.Clear();
-				AND_BITS(On<SQfirst>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(360000);//-------------------------------------------------------------------------------------------------------------
+				AND_BITS(On<SQfirst>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(360000);
+				//-------------------------------------------------------------------------------------------------------------
 
 				if(onTheJobLong) OUT_BITS(On<POWSU>);
 
