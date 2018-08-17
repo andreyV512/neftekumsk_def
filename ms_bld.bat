@@ -1,0 +1,1 @@
+msbuild buran9000.sln /t:defectoscope /p:configuration=release
