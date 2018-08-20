@@ -23,7 +23,7 @@ void TcpClientTypeSize()
 			if(IDNO == MessageBox(app.mainWindow.hWnd, L"Продолжить?", L"Ошибка передачи типоразмера", MB_ICONINFORMATION | MB_YESNO)) break;
 			i = 0;
 		}
-		Sleep(500);
+		Sleep(1000);
 	}
 }
 
@@ -47,6 +47,7 @@ DWORD WINAPI  TcpClientSetStrobe_Do(LPVOID)
 			if(IDNO == MessageBox(app.mainWindow.hWnd, L"Продолжить?", L"Ошибка передачи стробов", MB_ICONINFORMATION | MB_YESNO)) break;
 			i = 0;
 		}
+		Sleep(1000);
 	}
 	return 0;
 }
