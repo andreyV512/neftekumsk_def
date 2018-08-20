@@ -56,13 +56,13 @@ namespace StrobesProtocol
 		}
 		static void operator delete(void *, void *){}
 	};		
-	void Client::Do(wchar_t *addr, int port)
+	bool Client::Do(wchar_t *addr, int port)
 	{
 		unsigned (&data)[App::zonesCount + 2] = Singleton<ThicknessLir>::Instance().times;
 		Frame *f = Frame::Get();
 
 		new(Frame::AdditionalData<Stored>(f)) Stored(f);
-		NetClient::Connect(addr, port, f);
+		return NetClient::Connect(addr, port, f);
 	}
 
 }
