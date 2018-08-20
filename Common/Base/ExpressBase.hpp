@@ -1,5 +1,6 @@
 #pragma once 
 #include "Base.hpp"
+#include "App.h"
 
 class CExpressBase: public CBase
 {
@@ -19,7 +20,7 @@ public:
 		catch(...)
 		{   
 			wsprintf(buf, L"Необходимо подключить базу данных через файл подключения '%s'", path);
-			MessageBox(0, buf, L"Ошибка!!!", MB_ICONHAND);
+			MessageBox(app.mainWindow.hWnd, buf, L"Ошибка!!!", MB_ICONHAND);
 		}		
 	}
 };

@@ -50,7 +50,7 @@ void ASignalCrossDlg::Do(HWND h)
 	{
 		if(analogBoard.SetupParams())
 		{			
-			MessageBox(0, L"Не могу инициировать плату L791", L"Ошибка!!!", MB_ICONERROR);
+			MessageBox(h, L"Не могу инициировать плату L791", L"Ошибка!!!", MB_ICONERROR);
 		}
 	}
 }
@@ -64,7 +64,7 @@ void ASignalLongDlg::Do(HWND h)
 	{
 		if(analogBoard.SetupParams())
 		{			
-			MessageBox(0, L"Не могу инициировать плату L791", L"Ошибка!!!", MB_ICONERROR);
+			MessageBox(h, L"Не могу инициировать плату L791", L"Ошибка!!!", MB_ICONERROR);
 		}
 	}
 }
@@ -125,7 +125,7 @@ void GainCrossDlg::Do(HWND h)
 	{
 		if(analogBoard.SetupParams())
 		{			
-			MessageBox(0, L"Не могу инициировать плату L791", L"Ошибка!!!", MB_ICONERROR);
+			MessageBox(h, L"Не могу инициировать плату L791", L"Ошибка!!!", MB_ICONERROR);
 		}
 	}
 }
@@ -144,7 +144,7 @@ void GainLongDlg::Do(HWND h)
 	{
 		if(analogBoard.SetupParams())
 		{			
-			MessageBox(0, L"Не могу инициировать плату L791", L"Ошибка!!!", MB_ICONERROR);
+			MessageBox(h, L"Не могу инициировать плату L791", L"Ошибка!!!", MB_ICONERROR);
 		}
 	}
 }

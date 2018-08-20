@@ -71,9 +71,9 @@ void App::Init()
 	if(analogBoard.Init() || analogBoard.SetupParams())
 	{
 #ifndef L502OFF
-		MessageBox(0, L"Не могу инициировать плату L502", L"Ошибка !!!", MB_ICONERROR);
+		MessageBox(h, L"Не могу инициировать плату L502", L"Ошибка !!!", MB_ICONERROR);
 #elif !defined(L791OFF)
-		MessageBox(0, L"Не могу инициировать плату L791", L"Ошибка !!!", MB_ICONERROR);
+		MessageBox(h, L"Не могу инициировать плату L791", L"Ошибка !!!", MB_ICONERROR);
 #endif
 #ifndef DEBUG_ITEMS
 		return;
@@ -104,7 +104,7 @@ void App::Init()
 #pragma message("Добавить настроечный параметр")
 	if(!lir.Init(Singleton<DescriptorLir>::Instance().value))
 	{
-		MessageBox(0, L"Не могу инициировать плату 1784(лир)", L"Ошибка !!!", MB_ICONERROR);
+		MessageBox(h, L"Не могу инициировать плату 1784(лир)", L"Ошибка !!!", MB_ICONERROR);
 	}
 	Communication::Init();
 	ComPort &comPort = Singleton<ComPort>::Instance();
@@ -120,7 +120,7 @@ void App::Init()
 
 	if(!comPort.IsOpen())
 	{
-		MessageBox(0, L"Не могу инициировать КОМ-ПОРТ", L"Ошибка !!!", MB_ICONERROR);
+		MessageBox(h, L"Не могу инициировать КОМ-ПОРТ", L"Ошибка !!!", MB_ICONERROR);
 	}
 
 	AsyncServer::Create(Singleton<IPAddressTable>::Instance().items.get<IPPort>().value);
