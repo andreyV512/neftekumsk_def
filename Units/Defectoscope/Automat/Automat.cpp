@@ -368,6 +368,7 @@ struct Impl
 			device1730_1.Write(((unsigned short *)&res)[1]);	
 		}
 	};
+	/*
 	template<class List>struct SET_Bits
 	{
 		void operator()()
@@ -379,13 +380,14 @@ struct Impl
 			//device1730_1.Write(((unsigned short *)&res)[1]);	
 		}
 	};
+	*/
 };
 
 #define AND_BITS(...) AND_Bits<TL::MkTlst<__VA_ARGS__>::Result>()
 #define OR_BITS(...) OR_Bits<TL::MkTlst<__VA_ARGS__>::Result>()
 
 #define OUT_BITS(...) OUT_Bits<TL::MkTlst<__VA_ARGS__>::Result>()()
-#define SET_BITS(...) SET_Bits<TL::MkTlst<__VA_ARGS__>::Result>()()
+//#define SET_BITS(...) SET_Bits<TL::MkTlst<__VA_ARGS__>::Result>()()
 namespace
 {
 	 bool &onTheJobLong = Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value;
@@ -520,8 +522,8 @@ void Impl::Do()
 				Impl::block = false;
 				analogBoard.Stop();
 				device1730_0.Write(0);
-				OUT_BITS(Off<START>);			
-				SET_BITS(On<POWPCH>);
+				OUT_BITS(Off<START>, On<POWPCH>);			
+		//		SET_BITS(On<POWPCH>);
 				Sleep(3000);
 				AND_BITS(Ex<ExceptionContinueProc>, Proc<ACh13>, Proc<ACh14>)();
 				if(ACh13::Do(0) || ACh14::Do(0))
