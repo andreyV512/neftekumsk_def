@@ -19,6 +19,7 @@
 #include "SendDataTablo.h"
 #include "SolenoidControl.h"
 #include "StopAfterCycle.h"
+#include "Communication.h"
 
 struct Impl
 {
@@ -393,32 +394,54 @@ namespace
 	 AnalogBoard &analogBoard = Singleton<AnalogBoard>::Instance();
 }
 
+template<class T>struct __cross_type__;
+template<>struct __cross_type__<SpeedRL>{typedef RL Result;};
+template<>struct __cross_type__<SpeedRM>{typedef RM Result;};
+template<>struct __cross_type__<SpeedRH>{typedef RH Result;};
+
+template<class O, class P>struct __cross_speed__
+{
+	typedef typename __cross_type__<O>::Result T;
+	void operator()(O &o)
+	{
+		if(o.value)
+		{
+			Impl::OUT_Bits<TL::MkTlst<Impl::On<T>>::Result>()();
+		}
+		else
+		{
+		  Impl::OUT_Bits<TL::MkTlst<Impl::Off<STF>>::Result>()();
+		}
+	}
+};
+
 void Automat::RotationOn()
 {
-	if(Singleton<SpeedTable>::Instance().items.get<SpeedRL>().value)
-	{
-		Impl::OUT_Bits<TL::MkTlst<Impl::On<RL>>::Result>()();
-	}
-	else
-	{
-		Impl::OUT_Bits<TL::MkTlst<Impl::Off<RL>>::Result>()();
-	}
-	if(Singleton<SpeedTable>::Instance().items.get<SpeedRM>().value)
-	{
-		Impl::OUT_Bits<TL::MkTlst<Impl::On<RM>>::Result>()();
-	}
-	else
-	{
-		Impl::OUT_Bits<TL::MkTlst<Impl::Off<RM>>::Result>()();
-	}
-	if(Singleton<SpeedTable>::Instance().items.get<SpeedRH>().value)
-	{
-		Impl::OUT_Bits<TL::MkTlst<Impl::On<RH>>::Result>()();
-	}
-	else
-	{
-		Impl::OUT_Bits<TL::MkTlst<Impl::Off<RH>>::Result>()();
-	}
+	//if(Singleton<SpeedTable>::Instance().items.get<SpeedRL>().value)
+	//{
+	//	Impl::OUT_Bits<TL::MkTlst<Impl::On<RL>>::Result>()();
+	//}
+	//else
+	//{
+	//	Impl::OUT_Bits<TL::MkTlst<Impl::Off<RL>>::Result>()();
+	//}
+	//if(Singleton<SpeedTable>::Instance().items.get<SpeedRM>().value)
+	//{
+	//	Impl::OUT_Bits<TL::MkTlst<Impl::On<RM>>::Result>()();
+	//}
+	//else
+	//{
+	//	Impl::OUT_Bits<TL::MkTlst<Impl::Off<RM>>::Result>()();
+	//}
+	//if(Singleton<SpeedTable>::Instance().items.get<SpeedRH>().value)
+	//{
+	//	Impl::OUT_Bits<TL::MkTlst<Impl::On<RH>>::Result>()();
+	//}
+	//else
+	//{
+	//	Impl::OUT_Bits<TL::MkTlst<Impl::Off<RH>>::Result>()();
+	//}
+	TL::foreach<TL::MkTlst<SpeedRL, SpeedRM, SpeedRH>::Result, __cross_speed__>()(Singleton<SpeedTable>::Instance().items);
 	Impl::OUT_Bits<TL::MkTlst<Impl::On<POWPCH>, Impl::On<STF>>::Result>()();
 }
 void Automat::RotationOff()
@@ -426,6 +449,54 @@ void Automat::RotationOff()
 	Impl::OUT_Bits<TL::MkTlst<Impl::On<POWPCH>, Impl::Off<STF>>::Result>()();
 }
 
+template<class T>struct TestOutput;
+#define TEST_OUTPUT(n)template<>struct TestOutput<n>\
+{\
+	bool operator()()\
+	{\
+		return 0 !=(Singleton< OutputsTable<1>>::Instance().items.get<n>().value & device1730_1.ReadOutput());\
+	}\
+};
+TEST_OUTPUT(RCROSS)
+TEST_OUTPUT(RLINE)
+TEST_OUTPUT(RTHICK)
+#undef TEST_OUTPUT
+
+template<class T>struct OutInputType;
+
+template<>struct OutInputType<RCROSS>{typedef WCROSS Result;};
+template<>struct OutInputType<RLINE>{typedef WLINE Result;};
+template<>struct OutInputType<RTHICK>{typedef WTHICK Result;};
+
+template<class T>struct PositionModule
+{
+	void operator()(bool workPosition)
+	{		
+		bool testOutput = TestOutput<T>()();
+		if(workPosition)
+		{
+			if(!testOutput)
+			{	
+				//OUT_BITS(On<T>);
+				Impl::OUT_Bits<TL::MkTlst<Impl::On<T>>::Result>()();
+				Sleep(3000);
+				//AND_BITS(On<typename OutInputType<T>::Result>, Ex<ExceptionStopProc>)();
+				Impl::AND_Bits<TL::MkTlst<Impl::On<typename OutInputType<T>::Result>, Impl::Ex<Impl::ExceptionStopProc>>::Result>()();
+			}
+		}
+		else
+		{
+			if(testOutput)
+			{
+				//OUT_BITS(Off<T>);
+				Impl::OUT_Bits<TL::MkTlst<Impl::Off<T>>::Result>()();
+				Sleep(3000);
+				//AND_BITS(Off<typename OutInputType<T>::Result>, Ex<ExceptionStopProc>)();
+				Impl::AND_Bits<TL::MkTlst<Impl::Off<typename OutInputType<T>::Result>, Impl::Ex<Impl::ExceptionStopProc>>::Result>()();
+			}
+		}
+	}
+};
 
 void Impl::Do()
 {
@@ -459,6 +530,46 @@ void Impl::Do()
 					continue;
 				}
 
+				AND_BITS(On<TPP_TS>, On<CYCLE_TS>, Ex<ExceptionStopProc>)();
+
+				Log::Mess<LogMess::QueryNumberTube>();
+				if(!Communication::QueryNumberTube2(
+					Singleton<ResultViewerData>::Instance().numberTube
+					))
+				{
+					dprint("Error Number TUBE\n");
+					Log::Mess<LogMess::ErrorNumberTube>();
+					throw ExceptionTimeOutProc();
+				}
+
+				if(!Singleton<Communication::FromASU>::Instance().tubeOk)
+				{
+					Log::Mess<LogMess::ExitBrak>();					
+					PositionModule<RCROSS>()(false);
+					PositionModule<RLINE>()(false);
+					PositionModule<RTHICK>()(false);
+					OUT_BITS(On<START>); //старт цикла
+					AND_BITS(On<BASE_TS>, Proc<ExceptionMissingSignalFromLift>, Ex<ExceptionStopProc>)();//ожидание наезда на датчик базы, проверка положений модулей
+					AND_BITS(Off<BASE_TS>, Proc<ExceptionMissingSignalFromLift>, Ex<ExceptionStopProc>)();//ожидание съезда с датчика базы, проверка положений модулей
+					OUT_BITS(Off<START>);//стоп цикла
+					continue;
+				}
+
+				//dprint("number tube %s     \n", Singleton<ResultViewerData>::Instance().numberTube);
+
+#define NEW_TEST_POSITION_UNITS
+#ifdef NEW_TEST_POSITION_UNITS
+				Log::Mess<LogMess::PositionCrossUnit>();
+				PositionModule<RCROSS>()(true);
+				
+				Log::Mess<LogMess::PositionLongUnit>();
+				PositionModule<RLINE>()(onTheJobLong);
+				
+				Log::Mess<LogMess::PositionThicknessUnit>();
+				PositionModule<RTHICK>()(onTheJobThickness);
+
+				AND_BITS(On<WCROSS>, On<WTHICK>, On<WLINE>, Ex<ExceptionStopProc>)();
+#else
 				Log::Mess<LogMess::PositionCrossUnit>();
 				OUT_BITS(On<RCROSS>);//готовность пореречника
 				
@@ -496,42 +607,20 @@ void Impl::Do()
 				AND_BITS(On<WLINE>, Ex<ExceptionStopProc>)(360000);		
 				Sleep(1000);
 				AND_BITS(On<WCROSS>, On<WTHICK>, On<WLINE>, Ex<ExceptionStopProc>)(360000);
+#endif
+
 				App::measurementOfRunning = true;
 				Log::Mess<LogMess::StartSycle>();
 
 
-				AND_BITS(On<TPP_TS>, On<CYCLE_TS>, Ex<ExceptionStopProc>)(60 * 60 * 1000);//ожидание цикла
+				AND_BITS(On<TPP_TS>, On<CYCLE_TS>, Ex<ExceptionStopProc>)();//ожидание цикла
 				OUT_BITS(Off<RESULT>);
 
 				dprint("Start Cycle  %x\n", sycle_ts);
 
 				if(onTheJobLong)
 				{
-					if(Singleton<SpeedTable>::Instance().items.get<SpeedRL>().value)
-					{
-						OUT_BITS(On<RL>);
-					}
-					else
-					{
-						OUT_BITS(Off<RL>);
-					}
-					if(Singleton<SpeedTable>::Instance().items.get<SpeedRM>().value)
-					{
-						OUT_BITS(On<RM>);
-					}
-					else
-					{
-						OUT_BITS(Off<RM>);
-					}
-					if(Singleton<SpeedTable>::Instance().items.get<SpeedRH>().value)
-					{
-						OUT_BITS(On<RH>);
-					}
-					else
-					{
-						OUT_BITS(Off<RH>);
-					}
-					OUT_BITS(On<STF>);
+					automat.RotationOn();
 					OUT_BITS(On<POWSU>);  
 					Sleep(1000);
 					AND_BITS(On<WLINE>, On<PCHA>, Off<PCHRUN>, Ex<ExceptionStopProc>);
@@ -543,17 +632,17 @@ void Impl::Do()
 					OUT_BITS(On<CYCLE>);
 					Sleep(1000);
 					Log::Mess<LogMess::WaitReadyFromThickness>();
-					AND_BITS(On<WTHICK>, On<CONTROL>, Ex<ExceptionStopProc>)(60 * 60 *1000);
+					AND_BITS(On<WTHICK>, On<CONTROL>, Ex<ExceptionStopProc>)();
 				}				
 
 				dprint("Wait tube on Position\n");
 				Log::Mess<LogMess::WaitTubeOnPosition>();
 				Sleep(500);
-				AND_BITS(On<WTHICK>, On<WCROSS>, On<WLINE>, On<TPP_TS>, On<CYCLE_TS>, Ex<ExceptionStopProc>)(360000);
+				AND_BITS(On<WTHICK>, On<WCROSS>, On<WLINE>, On<TPP_TS>, On<CYCLE_TS>, Ex<ExceptionStopProc>)();
 				Singleton<Compute>::Instance().Clear();
 				Impl::block = true;
 				dprint("Wait NumberTube\n");
-				
+/*				
 				Log::Mess<LogMess::QueryNumberTube>();
 				if(!Communication::QueryNumberTube2(
 					Singleton<ResultViewerData>::Instance().numberTube
@@ -564,7 +653,21 @@ void Impl::Do()
 					throw ExceptionTimeOutProc();
 				}
 
+				if(!Singleton<FromASU>::Instance().tubeOk)
+				{
+					Log::Mess<LogMess::ExitBrak>();					
+					PositionModule<RCROSS>()(false);
+					PositionModule<RLINE>()(false);
+					PositionModule<RTHICK>()(false);
+					OUT_BITS(On<START>); //старт цикла
+					AND_BITS(On<BASE_TS>, Proc<ExceptionMissingSignalFromLift>)();//ожидание наезда на датчик базы, проверка положений модулей
+					AND_BITS(Off<BASE_TS>, Proc<ExceptionMissingSignalFromLift>)();//ожидание съезда с датчика базы, проверка положений модулей
+					OUT_BITS(Off<START>);//стоп цикла
+					continue;
+				}
+
 				dprint("number tube %s     \n", Singleton<ResultViewerData>::Instance().numberTube);
+				*/
 				Log::Mess<LogMess::SetSignalStart>();
 				OUT_BITS(On<START>); //старт цикла
 
@@ -583,14 +686,14 @@ void Impl::Do()
 				dprint("AND_BITS(On<SQcrossIN>, Proc<Lir>, Once<CrossSQ0on>)(10000)\n");
 				Log::Mess<LogMess::InCrossModule>();
 				AND_BITS(On<SQcrossOUT>, Proc<Lir>, Once<CrossSQ1on>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(10000);
-				Log::Mess<LogMess::InCrossModule>();
+				//Log::Mess<LogMess::InCrossModule>();
 				lir.Start0();
 				if(onTheJobThickness)
 				{
 					AND_BITS(On<SQthickIN>, Proc<Lir>, Once<ThicknessSQ0on>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(10000);
 					Log::Mess<LogMess::InThickModule>();
 					AND_BITS(On<SQthickOUT>, Proc<Lir>, Once<ThicknessSQ1on>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(10000);
-					Log::Mess<LogMess::InThickModule>();
+					//Log::Mess<LogMess::InThickModule>();
 				}
 
 				if(onTheJobLong)
@@ -598,7 +701,7 @@ void Impl::Do()
 					AND_BITS(On<SQlongIN>, Proc<Lir>,  Once<LongSQ0on>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(10000);
 					Log::Mess<LogMess::InLongModule>();
 					AND_BITS(On<SQlongOUT>, Proc<Lir>,  Once<LongSQ1on>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(10000);
-					Log::Mess<LogMess::InLongModule>();
+					//Log::Mess<LogMess::InLongModule>();
 				}
 
 				AND_BITS(On<BASE_TS>, Proc<Lir>, Ex<ExceptionStopProc>, Proc<ExceptionMissingSignalFromLift>)(360000);	
