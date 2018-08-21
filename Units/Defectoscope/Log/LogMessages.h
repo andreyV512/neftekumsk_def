@@ -131,6 +131,7 @@ namespace LogMess
 		, HighVoltageOff
 
 		, SendStrobes
+		, ExitBrak
 
 		, max_row
 	};
@@ -223,6 +224,7 @@ namespace LogMess
 	MESS(InfoUserStop					, void, "Оператор вышел из цикла сбора данных"			  , red  , yellow)
 
 	MESS(InfoDataCollectionComplete		, void, "Сбор данных закончен"                           , green, white);
+	MESS(ExitBrak, void, "Прогон брака", blue, yellow);
 
 	MESS(SQ1BitIn             , bool, "SQ1BitIn            ", white, black)
 	MESS(SQ3BitIn             , bool, "SQ3BitIn            ", white, black)
