@@ -65,9 +65,10 @@ struct NumberTubeReply
 	unsigned char numAbonent;
 	unsigned char codeFunc;
 	 
-	char numberTube[8];
-	short signTube;
-	short reserve;
+	char numberTube[5];
+	unsigned char asu;
+	unsigned char reserve0;
+	short reserve1;
 	
 	unsigned short crc;
 };
@@ -90,10 +91,15 @@ bool QueryNumberTube2(char (&numberTube)[5])
 	if(b)
 	{
 		NumberTubeReply &reply = *(NumberTubeReply *)port.input;
-		if(1 == reply.numAbonent)
+		if(1 == reply.numAbonent && 0 == Crc16(port.input, port.input[0]))
 		{
 			char *c = (char *)&port.input[3];
 			memmove(numberTube, c, 5);
+
+			FromASU &fromASU = Singleton<FromASU>::Instance();
+
+			fromASU.tubeOk = reply.asu != FromASU::BRAK; 
+			fromASU.cuttingArea2 =  reply.asu > FromASU::CUTTING ? reply.asu - FromASU::CUTTING: 0;  
 
 			char buf[6];					   //вывод в строку 
 			memmove(buf, numberTube, 5);	   //статуса
