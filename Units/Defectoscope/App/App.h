@@ -1,5 +1,6 @@
 #pragma once
 //#include "uspc7100_exports.h"
+#include "typelist.hpp"
 class MainWindow;
 
 struct Long{};
@@ -43,10 +44,10 @@ public:
 
 extern App app;
 
-template<class T>struct Singleton
-{
-	static T& Instance(){static T x; return x;}
-};
+//template<class T>struct Singleton
+//{
+//	static T& Instance(){static T x; return x;}
+//};
 
 
 

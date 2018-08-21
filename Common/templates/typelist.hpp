@@ -14,12 +14,12 @@ namespace TL
 #define c(n) class n=NullType
 #define a(n) c(_##n##0),c(_##n##1),c(_##n##2),c(_##n##3),c(_##n##4),c(_##n##5),c(_##n##6),c(_##n##7),c(_##n##8),c(_##n##9)
 #define b(n) _##n##0,_##n##1,_##n##2,_##n##3,_##n##4,_##n##5,_##n##6,_##n##7,_##n##8,_##n##9
-	template<a(0),a(1),a(2),a(3),a(4),a(5),a(6),a(7),a(8),a(9)>struct MkTlst
+	template<a(0),a(1),a(2),a(3),a(4),a(5),a(6),a(7),a(8),a(9),a(10),a(11),a(12),a(13),a(14),a(15)>struct MkTlst
 	{
 		typedef Tlst<_00
 			, typename MkTlst<
 			_01,_02,_03,_04,_05,_06,_07,_08,_09
-			,b(1),b(2),b(3),b(4),b(5),b(6),b(7),b(8),b(9)
+			,b(1),b(2),b(3),b(4),b(5),b(6),b(7),b(8),b(9),b(10),b(11),b(12),b(13),b(14),b(15)
 			>::Result
 		> Result;
 	};
@@ -108,9 +108,9 @@ namespace TL
 	{
 		typedef typename Reverse<Tail, Tlst<Head, tmp> >::Result Result;
 	};
-	template<typename Head, typename tmp>struct Reverse<Tlst<Head, NullType>, tmp>
+	template<typename tmp>struct Reverse<NullType, tmp>
 	{
-		typedef Tlst<Head, tmp> Result;
+		typedef tmp Result;
 	};
 //-------------------------------------------------------------------------------------------------------------
 	template<class List>struct Factory;
@@ -138,12 +138,68 @@ namespace TL
 			Proc<Head, P>()(o, p);
 			foreach<Tail, Proc>()(o, p);
 		}
+		template<class P>void operator()(P *p)
+		{
+			Proc<Head, P>()(p);
+			foreach<Tail, Proc>()(p);
+		}	
+		void operator()(Tlst<Head, Tail> *o)
+		{
+			Proc<Head, int>()(o);
+			foreach<Tail, Proc>()(o);
+		}
+		void operator()()
+		{
+			Proc<Head, int>()();
+			foreach<Tail, Proc>()();
+		}	
+
+		template<class O, class P>void operator()(O &o, P &p)
+		{
+			Proc<Head, P>()(o, p);
+			foreach<Tail, Proc>()(o, p);
+		}
+		template<class P>void operator()(P &p)
+		{
+			Proc<Head, P>()(p);
+			foreach<Tail, Proc>()(p);
+		}	
+		void operator()(Tlst<Head, Tail> &o)
+		{
+			Proc<Head, int>()(o);
+			foreach<Tail, Proc>()(o);
+		}
 	};
 	template<class Head, template<class, class>class Proc>struct foreach<Tlst<Head, NullType>, Proc>
 	{
 		template<class O, class P>void operator()(O *o, P *p)
 		{
 			Proc<Head, P>()(o, p);
+		}
+		void operator()(Tlst<Head, NullType> *o)
+		{
+			Proc<Head, int>()(o);
+		}
+		template<class P>void operator()(P *p)
+		{
+		    Proc<Head, P>()(p);
+		}
+		void operator()()
+		{
+			Proc<Head, int>()();
+		}	
+
+		template<class O, class P>void operator()(O &o, P &p)
+		{
+			Proc<Head, P>()(o, p);
+		}
+		void operator()(Tlst<Head, NullType> &o)
+		{
+			Proc<Head, int>()(o);
+		}
+		template<class P>void operator()(P &p)
+		{
+		    Proc<Head, P>()(p);
 		}
 	};
 //-------------------------------------------------------------------------------------------------------------
@@ -155,12 +211,68 @@ namespace TL
 			if(Proc<Head, P>()(o, p))return find<Tail, Proc>()(o, p);
 			return false;
 		}
+		template<class P>bool operator()(P *p)
+		{
+			if(Proc<Head, P>()(p))return find<Tail, Proc>()(p);
+			return false;
+		}	
+		bool operator()(Tlst<Head, Tail> *o)
+		{
+			if(Proc<Head, int>()(o))return find<Tail, Proc>()(o);
+			return false;
+		}
+		bool operator()()
+		{
+			if(Proc<Head, int>()())return find<Tail, Proc>()();
+			return false;
+		}	
+
+		template<class O, class P>bool operator()(O &o, P &p)
+		{
+			if(Proc<Head, P>()(o, p))return find<Tail, Proc>()(o, p);
+			return false;
+		}
+		template<class P>bool operator()(P &p)
+		{
+			if(Proc<Head, P>()(p))return find<Tail, Proc>()(p);
+			return false;
+		}	
+		bool operator()(Tlst<Head, Tail> &o)
+		{
+			if(Proc<Head, int>()(o))return find<Tail, Proc>()(o);
+			return false;
+		}
 	};
 	template<class Head, template<class, class>class Proc>struct find<Tlst<Head, NullType>, Proc>
 	{
 		template<class O, class P>bool operator()(O *o, P *p)
 		{
 			return Proc<Head, P>()(o, p);
+		}
+		bool operator()(Tlst<Head, NullType> *o)
+		{
+			return Proc<Head, int>()(o);
+		}
+		template<class P>bool operator()(P *p)
+		{
+			return Proc<Head, P>()(p);
+		}
+		bool operator()()
+		{
+			return Proc<Head, int>()();
+		}	
+
+		template<class O, class P>bool operator()(O &o, P &p)
+		{
+			return Proc<Head, P>()(o, p);
+		}
+		bool operator()(Tlst<Head, NullType> &o)
+		{
+			return Proc<Head, int>()(o);
+		}
+		template<class P>bool operator()(P &p)
+		{
+			return Proc<Head, P>()(p);
 		}
 	};
 //-------------------------------------------------------------------------------------------------------------
@@ -173,10 +285,20 @@ namespace TL
 			if(0 == ret)return find_ret<Tail, Proc>()(o, p);
 			return ret;
 		}
+		template<class O, class P>unsigned operator()(O &o, P &p)
+		{
+			unsigned ret = Proc<Head, P>()(o, p);
+			if(0 == ret)return find_ret<Tail, Proc>()(o, p);
+			return ret;
+		}
 	};
 	template<class Head, template<class, class>class Proc>struct find_ret<Tlst<Head, NullType>, Proc>
 	{
 		template<class O, class P>unsigned operator()(O *o, P *p)
+		{
+			return Proc<Head, P>()(o, p);
+		}
+		template<class O, class P>unsigned operator()(O &o, P &p)
 		{
 			return Proc<Head, P>()(o, p);
 		}
@@ -302,6 +424,10 @@ namespace TL
 	{
 		typedef T Result;
 	};
+	template<template<class, class>class Wapper, class T, class X>struct Inner<Wapper<T, X>>
+	{
+		typedef T Result;
+	};
 //-------------------------------------------------------------------------------------------
 	template<class List, class T>struct TypeInList;
 	template<class Head, class Tail, class T>struct TypeInList<Tlst<Head, Tail>, T>
@@ -328,7 +454,7 @@ namespace TL
 		typedef TL::IntToType<-1> Result;
 	};
 	//-------------------------------------------------------------------------------------------
-	template<class List, class T>struct SubListFromMultyList
+	template<class List, class T>struct SubListFromMultyList					   
 	{
 		typedef typename TypeAt<List, TypeInMultyList<List, T>::Result::value>::Result Result;
 	};
@@ -351,6 +477,16 @@ namespace TL
 	template<typename Head, template<typename,typename,typename>class Wapper, class Param, class Param1>struct TypeToTypeLstParam2<Tlst<Head, NullType>, Wapper, Param, Param1>
 	{
 		typedef Tlst<Wapper<Head, Param, Param1>, NullType> Result;
+	};
+	//----------------------------------------------------------------------------------------------------
+	template<typename List, template<typename,typename,typename>class Wapper, class Param, class Param1>struct TypeToTypeLstParam2_xx;
+	template<typename Head, typename Tail, template<typename,typename,typename>class Wapper, class Param, class Param1>struct TypeToTypeLstParam2_xx<Tlst<Head, Tail>, Wapper, Param, Param1>
+	{
+		typedef Tlst<Wapper<Param, Head, Param1>, typename TypeToTypeLstParam2_xx<Tail, Wapper, Param, Param1>::Result> Result;
+	};
+	template<typename Head, template<typename,typename,typename>class Wapper, class Param, class Param1>struct TypeToTypeLstParam2_xx<Tlst<Head, NullType>, Wapper, Param, Param1>
+	{
+		typedef Tlst<Wapper<Param, Head, Param1>, NullType> Result;
 	};
 	//------------------------------------------------------------------------------------------------------------------------------------------------
 	template<class List, class P, class R>class ArrayFunc
@@ -438,6 +574,10 @@ namespace TL
 	{
 		typedef Tail Result;
 	};
+		template<class T>struct EraseItem<NullType, T>
+	{
+		typedef NullType Result;
+	};
 //------------------------------------------------------------------------------------------------------
 	template<class List, class T>struct SelectT;
 	template<class Head, class Tail, class T>struct SelectT<Tlst<Head, Tail>, T>
@@ -470,4 +610,92 @@ namespace TL
 		typedef NullType Result;
 	};
 //--------------------------------------------------------------------------------------------------
+	/// \brief если тип содержится в списке возвращает true, иначе false
+	template<class List, class T>struct ItemInList;
+	template<class Head, class Tail, class T>struct ItemInList<Tlst<Head, Tail>, T>
+	{
+		static const bool value =  false || ItemInList<Tail, T>::value;
+	};
+	template<class Tail, class T>struct ItemInList<Tlst<T, Tail>, T>
+	{
+		static const bool value =  true;
+	};
+	template<class T>struct ItemInList<NullType, T>
+	{
+		static const bool value =  false;
+	};
 }
+#define __UNIQUENAME(n, c) n##c
+#define _UNIQUENAME(n, c) __UNIQUENAME(n, c)
+#define UNIQUENAME(n) _UNIQUENAME(n, __COUNTER__) 
+
+namespace detail
+{
+	struct VAL{};
+	template<class T>class Guard
+	{
+		T t;
+	public:
+		Guard(T &t) : t(t){}
+		~Guard(){t();}
+	};
+
+	template<class T>Guard<T> operator +(VAL, T t)
+	{
+		return Guard<T>(t);
+	}
+}
+
+#define GUARD auto UNIQUENAME(GUARD_NAME) = detail::VAL() + [&]
+
+template<class T>struct Singleton
+{
+	static T& Instance(){return x;}
+private:
+	typedef T type_item;
+	static type_item x;
+    Singleton();
+    ~Singleton();
+    // необходимо также запретить копирование
+    Singleton(Singleton const&); // реализация не нужна
+    Singleton& operator= (Singleton const&);  // и тут
+};
+template<class T>typename Singleton<T>::type_item Singleton<T>::x;
+///-------------------------------------------Генератор последовательностей
+#define EXPAND(x) x
+#define CONCATENATE(x,y) x##y
+
+#define FOR_EACH_1(what, x, ...)what(x)
+#define FOR_EACH_2(what, x, ...)what(x)EXPAND(FOR_EACH_1(what, __VA_ARGS__))
+#define FOR_EACH_3(what, x, ...)what(x)EXPAND(FOR_EACH_2(what, __VA_ARGS__))
+#define FOR_EACH_4(what, x, ...)what(x)EXPAND(FOR_EACH_3(what, __VA_ARGS__))
+#define FOR_EACH_5(what, x, ...)what(x)EXPAND(FOR_EACH_4(what, __VA_ARGS__))
+#define FOR_EACH_6(what, x, ...)what(x)EXPAND(FOR_EACH_5(what, __VA_ARGS__))
+#define FOR_EACH_7(what, x, ...)what(x)EXPAND(FOR_EACH_6(what, __VA_ARGS__))
+#define FOR_EACH_8(what, x, ...)what(x)EXPAND(FOR_EACH_7(what, __VA_ARGS__))
+#define FOR_EACH_9(what, x, ...)what(x)EXPAND(FOR_EACH_8(what, __VA_ARGS__))
+
+#define FOR_EACH_10(what, x, ...)what(x)EXPAND(FOR_EACH_9(what, __VA_ARGS__))
+#define FOR_EACH_11(what, x, ...)what(x)EXPAND(FOR_EACH_10(what, __VA_ARGS__))
+#define FOR_EACH_12(what, x, ...)what(x)EXPAND(FOR_EACH_11(what, __VA_ARGS__))
+#define FOR_EACH_13(what, x, ...)what(x)EXPAND(FOR_EACH_12(what, __VA_ARGS__))
+#define FOR_EACH_14(what, x, ...)what(x)EXPAND(FOR_EACH_13(what, __VA_ARGS__))
+#define FOR_EACH_15(what, x, ...)what(x)EXPAND(FOR_EACH_14(what, __VA_ARGS__))
+#define FOR_EACH_16(what, x, ...)what(x)EXPAND(FOR_EACH_15(what, __VA_ARGS__))
+#define FOR_EACH_17(what, x, ...)what(x)EXPAND(FOR_EACH_16(what, __VA_ARGS__))
+
+#define FOR_EACH_18(what, x, ...)what(x)EXPAND(FOR_EACH_17(what, __VA_ARGS__))
+#define FOR_EACH_19(what, x, ...)what(x)EXPAND(FOR_EACH_18(what, __VA_ARGS__))
+
+#define FOR_EACH_NARG(...) FOR_EACH_NARG_(__VA_ARGS__, FOR_EACH_RSEQ_N())
+#define FOR_EACH_NARG_(...) EXPAND(FOR_EACH_ARG_N(__VA_ARGS__))
+#define FOR_EACH_ARG_N(_19,_18,_17,_16,_15,_14,_13,_12,_11,_10,_9,_8,_7,_6,_5,_4,_3,_2,_1, N, ...) N
+#define FOR_EACH_RSEQ_N() 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1
+
+#define FOR_EACH_(N, what, ...) EXPAND(CONCATENATE(FOR_EACH_, N)(what, __VA_ARGS__))
+#define FOR_EACH(what, ...) FOR_EACH_(FOR_EACH_NARG(__VA_ARGS__), what, __VA_ARGS__)
+
+//---------------------------------------------------тест генератора
+#define INT_TO_TYPE(n) TL::IntToType<n>,
+#define INT_TO_TYPE_LIST(...)  TL::MkTlst<FOR_EACH(INT_TO_TYPE, __VA_ARGS__)NullType>::Result
+//typedef INT_TO_TYPE_LIST(1,3, 7, 8, 9) int_to_type_list ;
