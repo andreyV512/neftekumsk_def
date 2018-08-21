@@ -16,6 +16,7 @@
 #include "SendDataAsu.h"
 #include "SendDataTablo.h"
 #include "LabelMessage.h"
+#include "Communication.h"
 
 Compute::Compute()
 {
@@ -355,6 +356,16 @@ namespace
 		   , currentOffset
 		   , MarkingDefectiveZones::Do
 		   );
+//если брак по шаблонированию
+	   int cutting = Singleton< Communication::FromASU>::Instance().cuttingArea2;
+	   if(cutting > 0)
+	   {
+			if(cutting < resultViewerData.cutting1)
+			{
+				resultViewerData.lengthTube -= resultViewerData.cutting1 - cutting;
+				resultViewerData.cutting1 = cutting;
+			}
+	   }
 
 	   dprint("cutting zones %d, %d length %d\n"
 		   , resultViewerData.cutting0
