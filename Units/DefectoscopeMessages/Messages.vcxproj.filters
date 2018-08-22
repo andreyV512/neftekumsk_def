@@ -48,14 +48,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Messages.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="App\App.cpp">
-      <Filter>App</Filter>
     </ClCompile>
     <ClCompile Include="Windows\MainWindow.cpp">
       <Filter>Windows\MainWindow</Filter>
@@ -104,6 +98,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Common\debug_tools\DebugMess.cpp">
       <Filter>Common\debug_tools</Filter>
+    </ClCompile>
+    <ClCompile Include="App\App.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="Messages.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -167,9 +167,6 @@
     <ClInclude Include="..\..\Common\window_tool\MenuAPI.h">
       <Filter>Common\window_tool</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common\window_tool\message.h">
-      <Filter>Common\window_tool</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Common\window_tool\Notify.h">
       <Filter>Common\window_tool</Filter>
     </ClInclude>
@@ -208,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="Dlg\Dialogs.h">
       <Filter>Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\message.h">
+      <Filter>Common\window_tool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

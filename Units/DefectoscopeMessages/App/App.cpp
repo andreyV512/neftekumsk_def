@@ -1,4 +1,3 @@
-#include "StdAfx.h"
 #include "App.h"
 #include "MainWindow.h"
 #include "EmptyWindow.h"
