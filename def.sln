@@ -7,6 +7,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "debug_panel_new", "Units\de
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DefectoscopeMessages", "Units\DefectoscopeMessages\Messages.vcxproj", "{1905CD7B-4775-4D79-ADC9-A24266EB457F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestTCPServer", "tests\TestTCPServer\TestTCPServer.vcxproj", "{92481838-22C1-400A-946A-5B7DBCAA3B14}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{ECEDBE56-6C76-4F5F-8B37-F43D45E845C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -25,8 +29,15 @@ Global
 		{1905CD7B-4775-4D79-ADC9-A24266EB457F}.Debug|Win32.Build.0 = Debug|Win32
 		{1905CD7B-4775-4D79-ADC9-A24266EB457F}.Release|Win32.ActiveCfg = Release|Win32
 		{1905CD7B-4775-4D79-ADC9-A24266EB457F}.Release|Win32.Build.0 = Release|Win32
+		{92481838-22C1-400A-946A-5B7DBCAA3B14}.Debug|Win32.ActiveCfg = Debug|Win32
+		{92481838-22C1-400A-946A-5B7DBCAA3B14}.Debug|Win32.Build.0 = Debug|Win32
+		{92481838-22C1-400A-946A-5B7DBCAA3B14}.Release|Win32.ActiveCfg = Release|Win32
+		{92481838-22C1-400A-946A-5B7DBCAA3B14}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{92481838-22C1-400A-946A-5B7DBCAA3B14} = {ECEDBE56-6C76-4F5F-8B37-F43D45E845C4}
 	EndGlobalSection
 EndGlobal

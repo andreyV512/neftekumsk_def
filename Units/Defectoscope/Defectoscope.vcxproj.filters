@@ -142,6 +142,9 @@
     <Filter Include="StoreData">
       <UniqueIdentifier>{10651da8-7e70-4f74-82fa-87ef750dddce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\CommonTCP\ProtocolTCP\StopCycle">
+      <UniqueIdentifier>{bccab71f-5dc8-468a-8e59-77f588b6fe6a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Defectoscope.rc">
@@ -374,15 +377,6 @@
     <ClCompile Include="..\..\Common\DSPFilters\source\Cascade.cpp">
       <Filter>Common\DSPFilters\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Common\DSPFilters\source\Elliptic.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\DSPFilters\source\Butterworth.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\DSPFilters\source\PoleFilter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Dialogs\FiltersDlg.cpp">
       <Filter>Windows\Dialogs</Filter>
     </ClCompile>
@@ -455,12 +449,6 @@
     <ClCompile Include="CommunicationWapper\CommunicationWapper.cpp">
       <Filter>TCPServer\CommunicationWappers</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Common\ProtocolTCP\StopCycle\StopCycleClient.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\ProtocolTCP\StopCycle\StopCycleServer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Common\Lir\Lir.cpp">
       <Filter>Common\Device\Lir</Filter>
     </ClCompile>
@@ -508,6 +496,21 @@
     </ClCompile>
     <ClCompile Include="Dialogs\OffsetsTube.cpp">
       <Filter>Windows\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\ProtocolTCP\StopCycle\StopCycleClient.cpp">
+      <Filter>Common\CommonTCP\ProtocolTCP\StopCycle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\ProtocolTCP\StopCycle\StopCycleServer.cpp">
+      <Filter>Common\CommonTCP\ProtocolTCP\StopCycle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\DSPFilters\source\Butterworth.cpp">
+      <Filter>Common\DSPFilters\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\DSPFilters\source\Elliptic.cpp">
+      <Filter>Common\DSPFilters\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\DSPFilters\source\PoleFilter.cpp">
+      <Filter>Common\DSPFilters\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -874,9 +877,6 @@
     <ClInclude Include="..\..\Common\ProtocolTCP\StopCycle\StopCycleProtocol.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common\ProtocolTCP\StopCycle\StopCycleProtocol.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Automat\DigitalBoard.h">
       <Filter>Automat</Filter>
     </ClInclude>
@@ -915,6 +915,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Common\ProtocolTCP\GetHostByName.h">
       <Filter>Common\CommonTCP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\ProtocolTCP\StopCycle\StopCycleProtocol.h">
+      <Filter>Common\CommonTCP\ProtocolTCP\StopCycle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -91,13 +91,16 @@ namespace
 			}
 		}
 	};
+	static NetServer x;
 }
 
 void AsyncServer::Create(int port)
-{
-	static NetServer x;
+{	
 	x.Init(port);
 }
 
-void Destroy(){}
+void AsyncServer::Destroy()
+{
+	x.~NetServer();
+}
 

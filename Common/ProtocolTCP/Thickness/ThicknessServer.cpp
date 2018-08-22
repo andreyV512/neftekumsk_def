@@ -5,7 +5,7 @@
 #include "typelist.hpp"
 #include "DebugMess.h"
 #include "App.h"
-#include "Defectoscope\ItemsData\USPCData.h"
+#include "USPCData.h"
 
 //#pragma pack(1)
 struct TcpData

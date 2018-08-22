@@ -129,6 +129,7 @@ void App::Init()
 
 void App::Destroy()
 {
+	AsyncServer::Destroy();
 	SetEvent(ProgrammExitEvent);
 	Sleep(1000);
 }
