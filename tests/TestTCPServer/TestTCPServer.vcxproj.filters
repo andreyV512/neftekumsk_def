@@ -105,9 +105,6 @@
     <ClInclude Include="..\..\Units\Defectoscope\ItemsData\USPCData.h">
       <Filter>ItemsData</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Units\Defectoscope\App\AppBase.h">
-      <Filter>App</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Common\Base\Base.hpp">
       <Filter>Base</Filter>
     </ClInclude>
@@ -137,6 +134,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Units\Defectoscope\ItemsData\ResultData.h">
       <Filter>ItemsData</Filter>
+    </ClInclude>
+    <ClInclude Include="App\AppBase.h">
+      <Filter>App</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -191,9 +191,6 @@
     <ClCompile Include="..\..\Units\Defectoscope\ItemsData\USPCData.cpp">
       <Filter>ItemsData</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Units\Defectoscope\App\AppBase.cpp">
-      <Filter>App</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Common\Lir\LirItems.cpp">
       <Filter>Lir</Filter>
     </ClCompile>
@@ -211,6 +208,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Units\Defectoscope\ItemsData\ResultData.cpp">
       <Filter>ItemsData</Filter>
+    </ClCompile>
+    <ClCompile Include="App\AppBase.cpp">
+      <Filter>App</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

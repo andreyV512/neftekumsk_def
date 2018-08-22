@@ -8,6 +8,7 @@
 int _tmain(int argc, _TCHAR* argv[])
 {
 	InitTcp initTcp;
+	app.Init();
 	AsyncServer::Create(5555);
 	getchar();
 	return 0;
