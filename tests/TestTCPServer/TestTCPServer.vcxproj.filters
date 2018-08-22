@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ProtocolTCP">
+      <UniqueIdentifier>{8e63fa87-1d45-40b5-b796-024d30701361}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TCPServer">
+      <UniqueIdentifier>{056c88e6-00ec-4202-b3b2-0a0f1c8c6f5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="debug_tools">
+      <UniqueIdentifier>{9a262995-9713-42db-9325-728af802e854}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ProtocolTCP\StopSycle">
+      <UniqueIdentifier>{93fbcfde-235a-4e3c-acba-09dba833ab50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="templates">
+      <UniqueIdentifier>{f6ffb4cf-db24-461d-b645-91ad002ee64e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="App">
+      <UniqueIdentifier>{f4d5f0ec-17ef-46bd-af36-f1815c7ba7af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ProtocolTCP\Strobes">
+      <UniqueIdentifier>{bfb7a7b9-43ce-4c67-a946-96f23964b27e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ProtocolTCP\TypeSize">
+      <UniqueIdentifier>{ee06c2bd-30f3-4cb4-9fee-d8f981544826}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ItemsData">
+      <UniqueIdentifier>{85d1fda8-a2d5-4de4-b753-d3f64554272f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{322577b7-5d26-4a66-901a-7c3d5250bbbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Automat">
+      <UniqueIdentifier>{7471310c-1e0d-4138-8c4e-c193fb7452d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lir">
+      <UniqueIdentifier>{ce1ff9ce-3d50-433b-b7c6-dfc22217e58b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ProtocolTCP\Thickness">
+      <UniqueIdentifier>{aa96f632-74ca-4672-96be-f7b8cbae7383}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\ProtocolTCP\AsyncServer.h">
+      <Filter>ProtocolTCP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\ProtocolTCP\InitTcp.h">
+      <Filter>ProtocolTCP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Units\Defectoscope\TCPServer\ServerHandler.h">
+      <Filter>TCPServer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\ProtocolTCP\NetFrame.h">
+      <Filter>ProtocolTCP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\ProtocolTCP\Frame.h">
+      <Filter>ProtocolTCP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\debug_tools\DebugMess.h">
+      <Filter>debug_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\ProtocolTCP\StopCycle\StopCycleProtocol.h">
+      <Filter>ProtocolTCP\StopSycle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\templates\templates.hpp">
+      <Filter>templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\templates\typelist.hpp">
+      <Filter>templates</Filter>
+    </ClInclude>
+    <ClInclude Include="App\App.h">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\ProtocolTCP\NetClient.h">
+      <Filter>ProtocolTCP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\ProtocolTCP\Strobes\StrobesProtocol.h">
+      <Filter>ProtocolTCP\Strobes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\ProtocolTCP\TypeSize\TypeSizeProtocol.h">
+      <Filter>ProtocolTCP\TypeSize</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Units\Defectoscope\ItemsData\USPCData.h">
+      <Filter>ItemsData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Units\Defectoscope\App\AppBase.h">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Base\Base.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Base\ExpressBase.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Base\tables.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Base\TablesDefine.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Units\Defectoscope\Automat\DigitalBoard.h">
+      <Filter>Automat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lir\LirItems.h">
+      <Filter>Lir</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lir\Lir.h">
+      <Filter>Lir</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\ProtocolTCP\Thickness\ThicknessProtocol.h">
+      <Filter>ProtocolTCP\Thickness</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\ProtocolTCP\CommonTCP.h">
+      <Filter>ProtocolTCP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Units\Defectoscope\ItemsData\ResultData.h">
+      <Filter>ItemsData</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestTCPServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\ProtocolTCP\AsyncServer.cpp">
+      <Filter>ProtocolTCP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\ProtocolTCP\InitTcp.cpp">
+      <Filter>ProtocolTCP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Units\Defectoscope\TCPServer\ServerHandler.cpp">
+      <Filter>TCPServer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\ProtocolTCP\NetFrame.cpp">
+      <Filter>ProtocolTCP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\ProtocolTCP\Frame.cpp">
+      <Filter>ProtocolTCP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\debug_tools\DebugMess.cpp">
+      <Filter>debug_tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\ProtocolTCP\StopCycle\StopCycleClient.cpp">
+      <Filter>ProtocolTCP\StopSycle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\ProtocolTCP\StopCycle\StopCycleServer.cpp">
+      <Filter>ProtocolTCP\StopSycle</Filter>
+    </ClCompile>
+    <ClCompile Include="App\App.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\ProtocolTCP\NetClient.cpp">
+      <Filter>ProtocolTCP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\ProtocolTCP\Strobes\StrobesClient.cpp">
+      <Filter>ProtocolTCP\Strobes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\ProtocolTCP\Strobes\StrobesServer.cpp">
+      <Filter>ProtocolTCP\Strobes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\ProtocolTCP\TypeSize\TypeSizeClient.cpp">
+      <Filter>ProtocolTCP\TypeSize</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\ProtocolTCP\TypeSize\TypeSizeServer.cpp">
+      <Filter>ProtocolTCP\TypeSize</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Units\Defectoscope\ItemsData\USPCData.cpp">
+      <Filter>ItemsData</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Units\Defectoscope\App\AppBase.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Lir\LirItems.cpp">
+      <Filter>Lir</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Lir\Lir.cpp">
+      <Filter>Lir</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\ProtocolTCP\Thickness\ThicknessClient.cpp">
+      <Filter>ProtocolTCP\Thickness</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\ProtocolTCP\Thickness\ThicknessServer.cpp">
+      <Filter>ProtocolTCP\Thickness</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\ProtocolTCP\CommonTCP.cpp">
+      <Filter>ProtocolTCP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Units\Defectoscope\ItemsData\ResultData.cpp">
+      <Filter>ItemsData</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
