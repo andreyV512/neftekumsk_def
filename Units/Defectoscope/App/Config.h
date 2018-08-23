@@ -10,7 +10,7 @@
 
 //undef L791OFF - ПОДключение платы: 791
 //define L791OFF - ОТключение платы: 791
-#define L791OFF
+#undef L791OFF
 
 //define NO_EXPRESS - ОТключение
 #define NO_EXPRESS

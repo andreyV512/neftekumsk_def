@@ -20,7 +20,7 @@ void TcpClientTypeSize()
 			)) break;
 		if(i > 5)
 		{
-			if(IDNO == MessageBox(app.mainWindow.hWnd, L"Продолжить?", L"Ошибка передачи типоразмера", MB_ICONINFORMATION | MB_YESNO)) break;
+			if(IDNO == MessageBox(app.mainWindow.hWnd, L"Нет подключения по локальной сети, продолжить?", L"Ошибка передачи типоразмера", MB_ICONINFORMATION | MB_YESNO)) break;
 			i = 0;
 		}
 		Sleep(1000);
@@ -44,7 +44,7 @@ DWORD WINAPI  TcpClientSetStrobe_Do(LPVOID)
 			)) break;
 		if(i > 5)
 		{
-			if(IDNO == MessageBox(app.mainWindow.hWnd, L"Продолжить?", L"Ошибка передачи стробов", MB_ICONINFORMATION | MB_YESNO)) break;
+			if(IDNO == MessageBox(app.mainWindow.hWnd, L"Нет подключения по локальной сети, продолжить?", L"Ошибка передачи стробов", MB_ICONINFORMATION | MB_YESNO)) break;
 			i = 0;
 		}
 		Sleep(1000);

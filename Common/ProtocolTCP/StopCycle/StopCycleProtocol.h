@@ -11,6 +11,6 @@ namespace StopCycleProtocol
 	class Client: public CommonClient
 	{
 	public:
-		static void Do(wchar_t *addr, int port);
+		static bool Do(wchar_t *addr, int port);
 	};
 }
